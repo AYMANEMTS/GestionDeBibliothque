@@ -18,15 +18,20 @@ class RoleUserMiddleware
     {
         if (Auth::check()) {
             $user = Auth::user();
-
-            if ($user->role == 'etudiant') {
-                return $next($request);
-            } elseif ($user->role == 'admin') {
+            if ($user && $user->role == 'admin') {
                 return redirect()->route('moder.dashbord');
-            } elseif ($user->role == 'superadmin') {
+            } elseif ($user && $user->role == 'superadmin') {
                 return redirect()->route('super.dashboard');
             }
         }
+
         return $next($request);
     }
+
+
+
+
+
+
+
 }
