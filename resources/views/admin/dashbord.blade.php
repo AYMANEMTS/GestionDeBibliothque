@@ -1,5 +1,16 @@
-<h1>Moder</h1>
+@extends('base')
+@include('parts.navbar_moder')
 
-<h2>Welcom : {{ $user->username }}</h2>
+@section('title','Dashbord Moder')
 
-<p><a href="{{ route('logout') }}">Logout</a></p>
+
+
+@section('moder')
+
+<div class="content" style="margin-left: 250px;margin-top: 100px">
+    <h1>Dashbord</h1>
+</div>
+
+
+
+@endsection
