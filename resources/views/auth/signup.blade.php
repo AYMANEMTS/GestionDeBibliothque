@@ -20,7 +20,7 @@
                             <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Cree un Compte</h3>
                             @foreach($errors->all() as $error)
                                 <div class="alert alert-danger">
-                                <li>{{$error}}</li>
+                                    <li>{{$error}}</li>
                                 </div>
                             @endforeach
                             <form method="post" action="{{ route('signup') }}">
@@ -106,7 +106,7 @@
 
                             </form>
                             <p class="small fw-bold mt-2 pt-1 mb-0">You have an account? <a href="{{ route('viewlogin')}}"
-                                                                                              class="link-danger">login</a></p>
+                                                                                            class="link-danger">login</a></p>
                         </div>
                     </div>
                 </div>
