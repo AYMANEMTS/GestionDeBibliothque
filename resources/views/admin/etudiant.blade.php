@@ -50,7 +50,7 @@
                         @endif
                     @endforeach
                 </table>
-
+            {{$etd->links()}}
     </div>
 
 

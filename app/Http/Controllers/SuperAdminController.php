@@ -9,77 +9,53 @@ use Illuminate\Support\Facades\Hash;
 
 class SuperAdminController extends Controller
 {
-    public function dashbord ()
+    public function users ()
     {
         $user = Auth::user();
-        $users = Utilisateure::all();
-        return view('superAdmin.dashbord',compact('user','users'));
+        $users = Utilisateure::paginate(5);
+        return view('superAdmin.users',compact('user','users'));
     }
-    public function showAdmin()
+    public function adduser(Request $request)
     {
-        return view('superAdmin.addadmin');
-    }
-    public function addAdmin(Request $request)
-    {
-        $info = $request->validate([
+        $data = $request->validate([
             'username' => 'required',
             'email' => 'required|unique:utilisateures,email',
             'phone' => 'required|numeric|min:10',
             'adress' => 'required',
             'CIN' => 'required',
             'gender' => 'required',
+            'role' => 'required',
             'password' => 'required|confirmed',
         ]);
-        if ($info)
-        {
+        if ($data){
             Utilisateure::create([
-                'username' => $info['username'],
-                'email' => $info['email'],
-                'phone' => $info['phone'],
-                'adress' => $info['adress'],
-                'CIN' => $info['CIN'],
-                'role' => 'Admin',
-                'gender' => $info['gender'],
-                'password' => Hash::make($info['password']),
+                'username' => $data['username'],
+                'email' => $data['email'],
+                'phone' => $data['phone'],
+                'adress' => $data['adress'],
+                'CIN' => $data['CIN'],
+                'role' => $data['role'],
+                'gender' => $data['gender'],
+                'password' => Hash::make($data['password']),
             ]);
-            return redirect()->route('viewlogin',['success'=>'You have successfully registered!']);
-        }else
-        {
-            back();
+            return redirect()->route('super.users')->with(['done'=>'user was add success']);
         }
     }
 
-    public function showSuper(){
-        return view('superAdmin.addsuper');
-    }
-
-    public function addsuper(Request $request)
+    public function changerole(Request $request , $id)
     {
-        $info = $request->validate([
-            'username' => 'required',
-            'email' => 'required|unique:utilisateures,email',
-            'phone' => 'required|numeric|min:10',
-            'adress' => 'required',
-            'CIN' => 'required',
-            'gender' => 'required',
-            'password' => 'required|confirmed',
+        $user = Utilisateure::find($id);
+        $role = $request->validate(['role'=>'required']);
+        $user->update([
+            'role' => $role['role']
         ]);
-        if ($info)
-        {
-            Utilisateure::create([
-                'username' => $info['username'],
-                'email' => $info['email'],
-                'phone' => $info['phone'],
-                'adress' => $info['adress'],
-                'CIN' => $info['CIN'],
-                'role' => 'superadmin',
-                'gender' => $info['gender'],
-                'password' => Hash::make($info['password']),
-            ]);
-            return redirect()->route('viewlogin',['success'=>'You have successfully registered!']);
-        }else
-        {
-            back();
-        }
+        return redirect()->route('super.users');
+    }
+
+    public function delete($id)
+    {
+        $user = Utilisateure::find($id);
+        $user->delete();
+        return redirect()->route('super.users');
     }
 }

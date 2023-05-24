@@ -90,11 +90,11 @@
             </div>
 
             <div class="mt-4 pt-2">
-                <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
+                <input class="btn btn-primary btn-lg" type="submit" value="Ajouter" />
             </div>
 
-
         </form>
+        <a class="btn btn-secondary" href="{{ route('moder.etudiant')}}">Cancel</a>
 
     </div>
 @endsection

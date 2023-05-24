@@ -12,5 +12,8 @@ class Livre extends Model
         'titre','autheur','description','launge','dispo',
         'image','annee','categorie'
     ];
+
+
+
     use HasFactory;
 }

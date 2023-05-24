@@ -35,7 +35,7 @@ class AdminController extends Controller
     /* Moder  Etudiant */
     public function listEtudiants()
     {
-        $etd = Utilisateure::all();
+        $etd = Utilisateure::paginate(7);
         return view('admin.etudiant',compact('etd'));
     }
     public function CreateEtudiant(Request $request)
