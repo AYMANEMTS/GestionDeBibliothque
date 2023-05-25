@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('titre');
             $table->string('autheur');
             $table->text('description');
-            $table->string('launge');
+            $table->enum('launge',['espagnol','anglais','arabe','français']);
             $table->boolean('dispo');
             $table->string('image');
-            $table->integer('annee');
+            $table->date('annee');
             $table->string('categorie');
             $table->timestamps();
         });
