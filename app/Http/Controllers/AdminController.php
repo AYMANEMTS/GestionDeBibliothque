@@ -25,7 +25,9 @@ class AdminController extends Controller
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'CIN' => $request->CIN,
-                'adress' => $request->adress
+                'adress' => $request->adress,
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name
             ]);
 
         }
@@ -76,7 +78,7 @@ class AdminController extends Controller
     /* Moder  Livres */
     public function listLivres()
     {
-        $livre = Livre::paginate(8);
+        $livre = Livre::paginate(6);
         return view('admin.livres',compact('livre'));
     }
     public function createLivre(Request $request)

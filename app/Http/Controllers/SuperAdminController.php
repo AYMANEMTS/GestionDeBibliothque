@@ -38,7 +38,7 @@ class SuperAdminController extends Controller
                 'gender' => $data['gender'],
                 'password' => Hash::make($data['password']),
             ]);
-            return redirect()->route('super.users')->with(['done'=>'user was add success']);
+            return redirect()->route('admin.users')->with(['done'=>'user was add success']);
         }
     }
 
@@ -49,13 +49,13 @@ class SuperAdminController extends Controller
         $user->update([
             'role' => $role['role']
         ]);
-        return redirect()->route('super.users');
+        return redirect()->route('admin.users');
     }
 
     public function delete($id)
     {
         $user = Utilisateure::find($id);
         $user->delete();
-        return redirect()->route('super.users');
+        return redirect()->route('admin.users');
     }
 }
