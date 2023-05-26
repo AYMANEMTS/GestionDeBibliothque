@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<nav class="navbar  navbar-inverse navbar-fixed-top" role="navigation">
     <!-- Brand and toggle get grouped for better mobile display -->
     <a style="margin-left: 0px" class="navbar-brand"  href="">
         Dashbord Super Admin
@@ -26,7 +26,7 @@
                 <a href=""><i class="fa-sharp fa-solid fa-table-columns"></i>  Dashbord</a>
             </li>
             <li>
-                <a href="{{ route('super.users') }}"><i class="fa-sharp fa-solid fa-users"></i> Users</a>
+                <a href="{{ route('admin.users') }}"><i class="fa-sharp fa-solid fa-users"></i> Users</a>
             </li>
 {{--            <li>--}}
 {{--                <a href=""><i class="fa-sharp fa-solid fa-book"></i>     Livre</a>--}}
