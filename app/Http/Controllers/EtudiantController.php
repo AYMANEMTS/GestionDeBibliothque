@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\emprunt;
+use App\Models\Livre;
 use App\Models\Utilisateure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,6 +12,11 @@ use MongoDB\Driver\Session;
 
 class EtudiantController extends Controller
 {
+    public function dashbord (){
+        $user = Auth::user();
+        $emp = emprunt::where('utilisateure_id',$user->id)->get();
+        return view('etudiant.index',compact('emp'));
+    }
     public function profile ($id)
     {
         $user = Utilisateure::findOrFail($id);
@@ -75,4 +82,34 @@ class EtudiantController extends Controller
         }
 
     }
+    public function books()
+    {
+        $book = Livre::all();
+        return view('etudiant.livres.livres',compact('book'));
+    }
+    public function showbook($id)
+    {
+            $book = Livre::find($id);
+            $empr = emprunt::where('livre_id',$book->id)->first();
+            return view('etudiant.livres.detail',compact('book','empr'));
+    }
+    public function empruntlivre(Request $request ,$id)
+    {
+        $user = Auth::user();
+        $livre = Livre::find($id);
+        $date_emp = $request->input('date_emp');
+        $date_fin = $request->input('date_fin');
+        emprunt::create([
+           'utilisateure_id' => $user->id,
+           'livre_id' => $livre->id,
+           'date_emp' => $date_emp,
+           'date_fin' => $date_fin,
+           'status' => 'attend'
+        ]);
+        $livre->update(['dispo' => 0]);
+        return back()->with(['done'=>'Le livre a été emprunté avec succès
+        Votre demande est en attente de confirmation.']);
+    }
 }
+
+
