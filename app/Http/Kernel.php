@@ -65,5 +65,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'password.verify' => \App\Http\Middleware\PasswordVerifyMiddleware::class,
         'role' => \App\Http\Middleware\RoleUserMiddleware::class,
+        'chek.role.etd' => \App\Http\Middleware\chekRoleEtudiantMiddleware::class,
+        'chek.role.mdr' => \App\Http\Middleware\chekRoleModerMiddleware::class,
     ];
 }
