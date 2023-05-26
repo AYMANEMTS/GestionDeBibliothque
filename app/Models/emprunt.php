@@ -16,4 +16,15 @@ class emprunt extends Model
         'status',
     ];
     use HasFactory;
+
+    public function livre() {
+        return $this->belongsTo(Livre::class);
+    }
+
+    public function periode($date_emp,$date_fin){
+        $date_emp = strtotime($date_emp);
+        $date_fin = strtotime($date_fin);
+        $rentalPeriod = round(($date_fin - $date_emp) / (60 * 60 * 24));
+        return abs($rentalPeriod);
+    }
 }
