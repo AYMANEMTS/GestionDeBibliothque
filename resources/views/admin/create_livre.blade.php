@@ -35,14 +35,17 @@
             </div>
 
             <div class="row">
+                <label for="launge" class="form-label">launge</label>
                 <div class="col-md-6 mb-4 d-flex align-items-center">
-
-                    <div class="form-outline datepicker w-100">
-                        <input type="text" name="launge" class="form-control form-control-lg" id="birthdayDate" />
-                        <label for="birthdayDate" class="form-label">launge</label>
-                    </div>
-
+                    <select id="launge" name="launge" class="form-select">
+                        <option style="font-size: 16px;" selected>Launge : </option>
+                        <option style="font-size: 16px;" value="espagnol">espagnol</option>
+                        <option style="font-size: 16px;" value="anglais">anglais</option>
+                        <option style="font-size: 16px;" value="arabe">arabe</option>
+                        <option style="font-size: 16px;" value="français">français</option>
+                    </select>
                 </div>
+
                 <div class="col-md-6 mb-4 d-flex align-items-center">
 
                     <div class="form-outline datepicker w-100">
@@ -57,7 +60,7 @@
                 <div class="col-md-6 mb-4 pb-2">
 
                     <div class="form-outline">
-                        <input type="number" name="annee"  class="form-control form-control-lg" />
+                        <input type="date" name="annee"  class="form-control form-control-lg" />
                         <label class="form-label" for="emailAddress">Annee</label>
                     </div>
 

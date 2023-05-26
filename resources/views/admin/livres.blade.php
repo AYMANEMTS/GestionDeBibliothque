@@ -13,46 +13,61 @@
             </div>
         @endif
         <a href="{{ route('moder.livre.FormCreate') }}" class="btn btn-primary">Cree un Livre</a><br><br>
-        <div class="row">
-            @foreach ($livre as $item)
-                <div class="col-lg-3 col-md-6 col-sm-12">
-                    <!-- Card Dark -->
-                    <div class="card m-3" style="width: 200px">
-
-                        <!-- Card image -->
-                        <div class="view overlay">
-                            <div class="card-img-top" style="background-image: url('{{ asset('./images_Livres/'.$item->image) }}'); background-size: cover; height: 200px;"></div>
-                            <a>
-                                <div class="mask rgba-white-slight"></div>
-                            </a>
+        <table class="table align-middle mb-0 bg-white">
+            <thead class="bg-light">
+            <tr>
+                <th>ID</th>
+                <th>Livre</th>
+                <th>Autheur</th>
+                <th>Categorie</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            @foreach($livre as $book)
+            <tbody>
+            <tr>
+                <td>{{ $book->id }}</td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <img
+                            src="{{ asset('./images_Livres/'.$book->image) }}"
+                            alt=""
+                            style="width: 45px; height: 45px"
+                            class="rounded-circle"
+                        />
+                        <div class="ms-3">
+                            <p class="fw-bold mb-1">{{ $book->titre }}</p>
                         </div>
-
-                        <!-- Card content -->
-                        <div class="card-body bg-dark elegant-color white-text rounded-bottom">
-
-                                <!-- Title -->
-                            <h4 class="card-title text-white">Card title</h4>
-                            <hr class="hr-light">
-                            <p class="text-white">Autheur : autheur</p>
-                            <hr class="hr-light">
-                            <!-- Text -->
-                            <p class="text-white">Categorie : categorie</p>
-                            <!-- Link -->
-                            <a href="{{ route('moder.livre.show',$item->id) }}" class="white-text d-flex justify-content-end">
-                                <h5>View <i class="fa-sharp fa-solid fa-eye fa-lg"></i></h5>
-                            </a>
-
-                        </div>
-
                     </div>
-                    <!-- Card Dark -->
-                </div>
+                </td>
+                <td>
+                    <p class="fw-normal mb-1">{{ $book->autheur }}</p>
+                </td>
+
+                <td>{{ $book->categorie }}</td>
+                <td>
+                    @if($book->dispo == 1)
+                    <span class="badge badge-success rounded-pill d-inline bg-success">Disponible</span>
+                    @else<span class="badge badge-success rounded-pill d-inline">Not Disponible</span>
+                    @endif
+                </td>
+                <td>
+                    <a href="{{ route('moder.livre.show',$book->id) }}" type="button" style="padding: 2px" class="btn  btn-sm btn-primary">View</a>
+                    <a href="{{ route('moder.livre.update',$book->id) }}" type="button" style="padding: 2px" class="btn  btn-sm btn-secondary">Edit</a>
+                    <a href="{{ route('moder.Formdelete.livre' , $book->id) }}" type="button" style="padding: 2px" class="btn  btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
             @endforeach
-        </div>
+            </tbody>
+        </table>
+
+
         <div style="padding-top: 40px;padding-bottom: 40px">
         {{ $livre->links() }}
         </div>
     </div>
+
 
 
 
