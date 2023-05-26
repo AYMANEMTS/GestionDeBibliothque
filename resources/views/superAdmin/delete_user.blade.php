@@ -15,7 +15,7 @@
                         <p>Are you sure you want to delete this user : <span class="text-lg text-danger">{{ $user->username }} </span> ?</p>
                     </div>
                     <div class="modal-footer">
-                        <a href="{{ route('super.users') }}" type="button" class="btn btn-secondary">Cancel</a>
+                        <a href="{{ route('admin.users') }}" type="button" class="btn btn-secondary">Cancel</a>
                         <form action="{{ route('admin.user.delete.vrf' , $user->id) }}" method="post">
                             @csrf
                             @method('DELETE')

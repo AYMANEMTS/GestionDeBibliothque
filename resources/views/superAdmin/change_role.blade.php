@@ -68,6 +68,6 @@
             </div>
         </div>
         <a href="{{ route('admin.user.delete',$user->id) }}" class="btn btn-danger">Delete</a>
-        <a href="{{ route('super.users') }}" class="btn btn-secondary">Cancel</a>
+        <a href="{{ route('admin.users') }}" class="btn btn-secondary">Cancel</a>
     </div>
 @endsection

@@ -105,7 +105,7 @@
 
                                 <div class="mt-4 pt-2">
                                     <input class="btn btn-primary btn-lg" type="submit" value="Ajouter" />
-                                    <a href="{{ route('super.users') }}" class="btn btn-lg btn-secondary">Cancel</a>
+                                    <a href="{{ route('admin.users') }}" class="btn btn-lg btn-secondary">Cancel</a>
 
                                 </div>
 
