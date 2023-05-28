@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\emprunt;
 use App\Models\Livre;
 use App\Models\Utilisateure;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -97,8 +98,13 @@ class EtudiantController extends Controller
     {
         $user = Auth::user();
         $livre = Livre::find($id);
+        $emp = emprunt::where('utilisateure_id',$user->id)->get();
+        if ($emp->count() >= 3){
+            return redirect()->route('books')->withErrors(['error'=>'you much emprunt min is 3 emprunt']);
+        }
         $date_emp = $request->input('date_emp');
-        $date_fin = $request->input('date_fin');
+        $date_fin = Carbon::parse($date_emp)->addDays(10);
+
         emprunt::create([
            'utilisateure_id' => $user->id,
            'livre_id' => $livre->id,
@@ -106,7 +112,6 @@ class EtudiantController extends Controller
            'date_fin' => $date_fin,
            'status' => 'attend'
         ]);
-        $livre->update(['dispo' => 0]);
         return back()->with(['done'=>'Le livre a été emprunté avec succès
         Votre demande est en attente de confirmation.']);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\emprunt;
 use App\Models\Livre;
 use App\Models\Utilisateure;
 use Illuminate\Http\Request;
@@ -10,10 +11,13 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    public function dashbord ()
-    {
-        $user = Auth::user();
-        return view('admin.dashbord',compact('user'));
+    public function dashbord(){
+        $emp_enattend = emprunt::where('status','attend')->get();
+        $emp_accepter = emprunt::where('status','accepter')->get();
+        $emp_refuse = emprunt::where('status','refuse')->get();
+        $total_etd = Utilisateure::where('role','etudiant')->count();
+        return view('admin.dashbord',compact('emp_enattend','emp_accepter','emp_refuse',
+        'total_etd'));
     }
 
     public function profileModer(Request $request)
@@ -63,8 +67,6 @@ class AdminController extends Controller
                 'password' => Hash::make($data['password']),
             ]);
             return redirect()->route('moder.etudiant',['success'=>'Etudiant was created successfuly']);
-        }else{
-            back();
         }
     }
     public function delletEtudiant($id)
@@ -124,25 +126,17 @@ class AdminController extends Controller
     }
     public function updateLivre(Request $request ,$id)
     {
-        $data = $request->validate([
-            'titre' => 'required',
-            'autheur' => 'required',
-            'launge' => 'required',
-            'categorie' => 'required',
-            'description' => 'required',
-            'annee' => 'required',
-            'dispo' => 'in:true,false',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
-        ]);
+        $livre = Livre::findOrFail($id);
+        $data = $request->post();
         $dispo = $request->has('dispo') ? true : false;
-
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imagePath = time() . '_' . $image->getClientOriginalName();
             $image->move(public_path('images_Livres'), $imagePath);
+            $data['image'] = $imagePath;
+            $livre->update(['image'=>$data['image']]);
         }
 
-        $livre = Livre::findOrFail($id);
         $livre->update([
             'titre' => $data['titre'],
             'autheur' => $data['autheur'],
@@ -151,7 +145,6 @@ class AdminController extends Controller
             'description' => $data['description'],
             'dispo' => $dispo,
             'annee' => $data['annee'],
-            'image' => $imagePath ,
         ]);
         return redirect()->route('moder.livre')->with(['done'=>'livre est modified']);
     }
@@ -167,5 +160,33 @@ class AdminController extends Controller
         return view('admin.livre_detail',compact('livre'));
     }
 
+    public function emprunts ()
+    {
+        $emprunts = emprunt::all();
+        return view('admin.emprunts ',compact('emprunts',));
+    }
+    public function acceptEmprunt($id)
+    {
+        $emprunt = emprunt::find($id);
+        $livre = Livre::find($emprunt->livre_id);
+        $emprunt->update(['status'=>'accepter']);
+        $livre->update(['dispo'=>0]);
+        return back();
 
+    }
+    public function refuseEmprunt($id)
+    {
+        $emprunt = emprunt::find($id);
+        $livre = Livre::find($emprunt->livre_id);
+        $livre->update(['dispo'=>1]);
+        $emprunt->update(['status'=>'refuse']);
+        return back();
+    }
+    public function deleteEmprunt($id)
+    {
+        $emprunt = emprunt::find($id);
+        $emprunt->delete();
+        return back();
+
+    }
 }
