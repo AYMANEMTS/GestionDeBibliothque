@@ -1,11 +1,7 @@
-@extends('base')
-@section('title','Create Etudiant')
-@include('parts.navbar_moder')
+@extends('admin.base')
+@section('moder2')
 
-
-@section('moder')
-
-    <div class="content" style="margin-left: 250px;margin-top: 100px">
+    <div class="container-fluid">
         <h1>Create Student : </h1>
         @foreach($errors->all() as $error)
             <div class="alert alert-danger">
@@ -91,10 +87,12 @@
 
             <div class="mt-4 pt-2">
                 <input class="btn btn-primary btn-lg" type="submit" value="Ajouter" />
+            <a class="btn btn-secondary btn-lg" href="{{ route('moder.etudiant')}}">Cancel</a>
             </div>
-
         </form>
-        <a class="btn btn-secondary" href="{{ route('moder.etudiant')}}">Cancel</a>
+<h1></h1>
+<h1></h1>
+<h1></h1>
 
     </div>
 @endsection

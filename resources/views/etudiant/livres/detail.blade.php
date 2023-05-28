@@ -42,8 +42,6 @@
                             @csrf
                             <label class="form-label">Date emprunt</label>
                             <input class="form-control" type="date" name="date_emp" >
-                            <label class="form-label">Date de routur</label>
-                            <input class="form-control" type="date" name="date_fin" >
                             <button class="btn btn-success" type="submit">Submit</button>
                         </form>
                     </div>

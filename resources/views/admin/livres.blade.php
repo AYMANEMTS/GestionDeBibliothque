@@ -1,15 +1,16 @@
-@extends('base')
-@section('title','Livres')
-@include('parts.navbar_moder')
+@extends('admin.base')
+@section('moder2')
 
-
-@section('moder')
-
-    <div class="content" style="margin-left: 250px;margin-top: 100px;width: 80%">
+    <div class="container-fluid" >
         <h1>List Livres : </h1><br>
         @if(session('done'))
             <div class="alert alert-success">
                 {{ session('done') }}
+            </div>
+        @endif
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
             </div>
         @endif
         <a href="{{ route('moder.livre.FormCreate') }}" class="btn btn-primary">Cree un Livre</a><br><br>
@@ -49,7 +50,8 @@
                 <td>
                     @if($book->dispo == 1)
                     <span class="badge badge-success rounded-pill d-inline bg-success">Disponible</span>
-                    @else<span class="badge badge-success rounded-pill d-inline">Not Disponible</span>
+                    @else
+                        <span class="badge badge-success rounded-pill d-inline bg-secondary">Not Disponible</span>
                     @endif
                 </td>
                 <td>

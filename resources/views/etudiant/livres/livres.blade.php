@@ -13,18 +13,26 @@
                 </ol>
             </nav>
         </div><!-- End Page Title -->
+        @error('error')
+        <div class="alert alert-danger">
+            {{ $message }}
+        </div>
+        @enderror
         <section class="section profile">
             <div class="row">
                 @foreach($book as $livre)
                 <div class="col-xl-3">
                     <!-- Card with an image on top -->
                     <div class="card">
+
                         <div class="card-img-top" style="background-image: url('{{ asset('./images_Livres/'.$livre->image) }}'); background-size: cover; height: 200px;"></div>
                         <div class="card-body">
                             <h2 class="card-title">{{ $livre->titre }}</h2>
                             <p class="card-text text-dark">Autheur : <span style="color: #012970">{{ $livre->autheur }}</span></p>
                             <p class="card-text text-dark">Catrgorie : <span style="color: #012970">{{ $livre->categorie }}</span></p>
-                            <p class="card-text text-dark">Status : <span style="color: #012970">{{ $livre->dispo?'Disponible':'Not disponible' }}</span></p>
+                            <p class="card-text text-dark">Status : <span style="color: #012970">@if($livre->dispo = 1)
+                              <p class="text-success">Disponible</p>@else <p class="text-danger">Not Disponible</p>
+                            @endif</span></p>
                             <a class="btn btn-primary" href="{{ route('detail' ,$livre->id) }}">View</a>
                         </div>
                     </div><!-- End Card with an image on top -->

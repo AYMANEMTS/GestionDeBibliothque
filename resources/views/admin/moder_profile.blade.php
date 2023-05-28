@@ -1,16 +1,23 @@
-@extends('base')
-@section('titlr','Profile Moder')
-@include('parts.navbar_moder')
-@section('moder')
-    <div class="container" style="margin-left: 250px;margin-top: 100px;width: 80%">
-        <div class="col-lg-8">
+@extends('admin.base')
+@section('moder2')
+    <div class="container-fluid" >
+        <div class="col-lg-12">
             <h2>Profile : {{ $user->username }}</h2>
             <div class="card mb-4">
                 <div class="card-body">
+                    <form method="get">
                     <div class="row">
-                        <form method="get">
                         <div class="col-sm-3">
-                            <p class="mb-0">first name</p>
+                            <p class="mb-0">Username</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="username" value="{{ $user->username }}">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">First Name</p>
                         </div>
                         <div class="col-sm-9">
                             <input class="form-control" type="text" name="first_name" value="{{ $user->first_name }}">
@@ -19,23 +26,12 @@
                     <hr>
                     <div class="row">
                         <div class="col-sm-3">
-                            <p class="mb-0">last name</p>
+                            <p class="mb-0">Last Name</p>
                         </div>
                         <div class="col-sm-9">
-                            <input class="form-control" type="text" name="last_name" value="{{ $user->last_name }}">
+                            <input class="form-control" type="text" name="last_email" value="{{ $user->last_name }}">
                         </div>
                     </div>
-                    <hr>
-                    <div class="row">
-
-                            <div class="col-sm-3">
-                                <p class="mb-0">Username</p>
-                            </div>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" name="username" value="{{ $user->username }}" id="">
-                            </div>
-                    </div>
-                </div>
                     <hr>
                     <div class="row">
                         <div class="col-sm-3">

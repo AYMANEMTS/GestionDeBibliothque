@@ -1,11 +1,7 @@
-@extends('base')
-@section('title','Update Livre')
-@include('parts.navbar_moder')
+@extends('admin.base')
+@section('moder2')
 
-
-@section('moder')
-
-    <div class="content" style="margin-left: 250px;margin-top: 100px">
+    <div class="container-fluid" >
         <h1>Update Livre : </h1>
         @foreach($errors->all() as $error)
             <div class="alert alert-danger">
@@ -13,90 +9,80 @@
             </div>
         @endforeach
         <form method="post" action="{{ route('moder.livre.update.vrf' ,$livre->id) }}" enctype="multipart/form-data">
-
             @csrf
             <div class="row">
                 <div class="col-md-6 mb-4">
-
                     <div class="form-outline">
-                        <input type="text" value="{{$livre->titre}}" name="titre" id="firstName" class="form-control form-control-lg" />
+                        <input type="text" name="titre" value="{{ $livre->titre }}" id="firstName" class="form-control form-control-lg" />
                         <label class="form-label" for="firstName">titre</label>
                     </div>
-
                 </div>
                 <div class="col-md-6 mb-4">
 
                     <div class="form-outline">
-                        <input type="text" value="{{$livre->autheur}}" name="autheur" id="lastName" class="form-control form-control-lg" />
+                        <input type="text" value="{{ $livre->autheur }}" name="autheur" id="lastName" class="form-control form-control-lg" />
                         <label class="form-label" for="lastName">autheur</label>
                     </div>
 
                 </div>
             </div>
-
             <div class="row">
-                <div class="col-md-6 mb-4 d-flex align-items-center">
-
-                    <div class="form-outline datepicker w-100">
-                        <input type="text" value="{{$livre->launge}}" name="launge" class="form-control form-control-lg" id="birthdayDate" />
-                        <label for="birthdayDate" class="form-label">launge</label>
+                <div class="col-md-6 mb-4">
+                    <div class="form-outline">
+                        <input type="date" value="{{ $livre->annee }}" name="annee" id="firstName" class="form-control form-control-lg" />
+                        <label class="form-label" for="firstName">Date de création</label>
                     </div>
-
                 </div>
-                <div class="col-md-6 mb-4 d-flex align-items-center">
+                <div class="col-md-6 mb-4">
 
-                    <div class="form-outline datepicker w-100">
-                        <input type="text" value="{{$livre->Categorie}}" name="categorie" class="form-control form-control-lg"  />
-                        <label for="birthdayDate" class="form-label">Categorie</label>
+                    <div class="form-outline">
+                        <input type="text" value="{{ $livre->categorie }}" name="categorie" id="lastName" class="form-control form-control-lg" />
+                        <label class="form-label" for="lastName">Categorie</label>
                     </div>
 
                 </div>
             </div>
-
             <div class="row">
-                <div class="col-md-6 mb-4 pb-2">
-
+                <div class="col-md-6 mb-4">
                     <div class="form-outline">
-                        <input type="number" value="{{$livre->annee}}"  name="annee"  class="form-control form-control-lg" />
-                        <label class="form-label" for="emailAddress">Annee</label>
-                    </div>
-
-                </div>
-                <div class="col-md-6 mb-4 pb-2">
-
-                    <div class="form-outline">
-                        <input type="file" name="image" class="form-control form-control-lg" />
-                        <label class="form-label" for="phoneNumber">Image</label>
-                    </div>
-                    <div class="col-md-6 mb-4 pb-2">
-
+                        <textarea  name="description" rows="1"  class="form-control form-control-lg">{{ $livre->description }}</textarea>
+                        <label class="form-label" for="firstName">Description</label>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 mb-4 pb-2">
-
-                        <div class="form-outline">
-                            <input type="checkbox" value="true" name="dispo"  class="form-check-input" />
-                            <label class="form-label" for="emailAddress">Disponible ?</label>
-                        </div>
-
-                    </div>
-                    <div class="col-md-6 mb-4 pb-2">
-
-                        <div class="form-outline">
-                            <textarea class="form-control" name="description"  id="" cols="50" rows="2">{{$livre->description}}</textarea><br>
-                            <label class="form-label">Description</label>
-                        </div>
-
-                    </div>
-
-                    <div class="mt-4 pt-2">
-                        <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
-                        <a href="{{ route('moder.livre') }}" type="button" class="btn btn-secondary">Cancel</a>
-
+                <div class="col-md-6 mb-4">
+                    <div class="form-outline">
+                        <input name="image" class="form-control form-control-lg" type="file" name="image"  />
+                        <label class="form-label" for="lastName">Image</label>
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="form-outline" >
+                        <select id="launge"  name="launge" class="form-select">
+                            <option style="font-size: 16px;" selected>Launge : </option>
+                            <option style="font-size: 16px;" value="espagnol"{{ old('launge') == 'espagnol' ? 'selected' : '' }}>espagnol</option>
+                            <option style="font-size: 16px;" value="anglais"{{ old('launge') == 'anglais' ? 'selected' : '' }}>anglais</option>
+                            <option style="font-size: 16px;" value="arabe" {{ old('launge') == 'arabe' ? 'selected' : '' }}>arabe</option>
+                            <option style="font-size: 16px;" value="français" {{ old('launge') == 'français' ? 'selected' : '' }}>français</option>
+                        </select>
+                        <label class="form-label" for="emailAddress">Launge </label>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="form-outline" >
+                        <input type="checkbox" value="true" name="dispo"  class="form-check-input" />
+                        <label class="form-label" for="emailAddress">Disponible ?</label>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 pt-2">
+                <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
+                <a href="{{ route('moder.livre') }}" class="btn btn-secondary btn-lg" type="button"  >Cancel</a>
+            </div>
+            <h1></h1>
+            <h1></h1>
+            <h1></h1>
         </form>
 
     </div>

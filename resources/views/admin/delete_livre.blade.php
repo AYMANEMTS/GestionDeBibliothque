@@ -1,11 +1,7 @@
-@extends('base')
-@section('title','Delete Livre ')
-@include('parts.navbar_moder')
+@extends('admin.base')
+@section('moder2')
 
-
-@section('moder')
-
-    <div class="content" style="margin-left: 250px;margin-top: 100px">
+    <div class="container-fluid" >
         <h1>Delete Livre : </h1>
         <div class="" >
             <div class="modal-dialog">
