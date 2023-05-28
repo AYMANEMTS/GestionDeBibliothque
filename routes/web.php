@@ -17,7 +17,11 @@ Route::view('signup/','auth.signup')->name('viewsignup');
 Route::post('signup/',[AuthenticationController::class,'signup'])->name('signup');
 Route::get('logout/',[AuthenticationController::class,'logout'])->name('logout')->middleware('auth');
 Route::view('404','error404')->name('404');
-
+//Route::get('/password/reset', [AuthenticationController::class,'showResetForm'])->name('password.reset');
+//Route::post('/password/email', [AuthenticationController::class,'sendResetLinkEmail'])->name('password.email');
+//Route::get('/password/reset/{token}', [AuthenticationController::class,'showResetPasswordForm'])->name('password.reset.form');
+//Route::post('/password/reset', [AuthenticationController::class,'resetPassword'])->name('password.reset.submit');
+//
 
 
 /* Etudiant */
@@ -87,9 +91,14 @@ Route::group(['middleware' => ['auth','chek.role.etd']],function (){
                ->name('Formdelete.livre');
            Route::delete('livre/delete/{id}','deleteLivre')->name('livre.delete');
            Route::get('livre/show/{id}','detailLivre')->name('livre.show');
+
+           Route::post('emprunts/accept/{id}','acceptEmprunt')->name('emprunt.accepter');
+           Route::get('emprunts','emprunts')->name('emprunts');
+           Route::post('emprunts/refuse/{id}','refuseEmprunt')->name('emprunt.refuse');
+           Route::delete('emprunts/{id}/delete','deleteEmprunt')->name('emprunt.delete');
        });
     });
 });
 
 
-
+Route::view('test/','admin.base');
