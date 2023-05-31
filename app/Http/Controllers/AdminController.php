@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Dompdf\Dompdf;
 use App\Models\emprunt;
 use App\Models\Livre;
+use App\Models\Msage;
 use App\Models\Utilisateure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -101,11 +102,9 @@ class AdminController extends Controller
             $image = $request->file('image');
             $imagePath = time() . '_' . $image->getClientOriginalName();
             $image->move(public_path('images_Livres'),$imagePath);
-
-
         }
         if($data){
-            Livre::create([
+            $livre = Livre::create([
                 'titre' => $data['titre'],
                 'autheur' => $data['autheur'],
                 'launge' => $data['launge'],
@@ -115,6 +114,10 @@ class AdminController extends Controller
                 'annee' => $data['annee'],
                 'image' => $imagePath ,
             ]);
+            $livreId = $livre->id;
+            $pdf = $this->generatePDF($data,$livreId);
+
+
             return redirect()->route('moder.livre')->with('success', 'Livre created successfully');
         }
     }
@@ -146,6 +149,9 @@ class AdminController extends Controller
             'dispo' => $dispo,
             'annee' => $data['annee'],
         ]);
+        $Id = $livre->id;
+        $livreId = $Id.'_updated';
+        $pdf = $this->generatePDF($data,$livreId);
         return redirect()->route('moder.livre')->with(['done'=>'livre est modified']);
     }
     public function deleteLivre($id)
@@ -157,12 +163,17 @@ class AdminController extends Controller
     public function detailLivre($id)
     {
         $livre = Livre::findOrFail($id);
+
         return view('admin.livre_detail',compact('livre'));
     }
 
     public function emprunts ()
     {
-        $emprunts = emprunt::all();
+        $emprunts = emprunt::whereIn('status', ['accepter', 'attend'])->get();
+//        $emprunts = emprunt::all();
+//        if ($emprunts->status == 'attend' || $emprunts->status == 'accepter'){
+//            $empp = $emprunts;
+//        }
         return view('admin.emprunts ',compact('emprunts',));
     }
     public function acceptEmprunt($id)
@@ -171,6 +182,13 @@ class AdminController extends Controller
         $livre = Livre::find($emprunt->livre_id);
         $emprunt->update(['status'=>'accepter']);
         $livre->update(['dispo'=>0]);
+        $msage = Msage::create([
+        'emprunt_id' => $emprunt->id,
+        'utilisateure_id' => $emprunt->utilisateure_id,
+        'status' => 'accepter',
+        'msage' => 'Votre de demande de livre '.$livre->titre.' est accepter',
+    ]);
+
         return back();
 
     }
@@ -180,6 +198,12 @@ class AdminController extends Controller
         $livre = Livre::find($emprunt->livre_id);
         $livre->update(['dispo'=>1]);
         $emprunt->update(['status'=>'refuse']);
+        $msage = Msage::create([
+            'emprunt_id' => $emprunt->id,
+            'utilisateure_id' => $emprunt->utilisateure_id,
+            'status' => 'refuse ',
+            'msage' => 'Votre de demande de livre '.$livre->titre.' est refuse',
+        ]);
         return back();
     }
     public function deleteEmprunt($id)
@@ -187,6 +211,33 @@ class AdminController extends Controller
         $emprunt = emprunt::find($id);
         $emprunt->delete();
         return back();
-
     }
+    public function renduEmprunt($id)
+    {
+        $emprunt = emprunt::find($id);
+        $livre = Livre::where('id',$emprunt->livre_id)->first();
+        $livre->update(['dispo' => 1]);
+        $emprunt->update(['status' => 'rendu']);
+        Msage::create([
+            'emprunt_id' => $emprunt->id,
+            'utilisateure_id' => $emprunt->utilisateure_id,
+            'status' => 'accepter',
+            'msage' => 'Merci pour retourner livre '.$livre->titre,
+        ]);
+        return back();
+    }
+
+    public function generatePDF($data,$livreId)
+    {
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml(view('admin.livre_pdf', compact('data')));
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        $output = $dompdf->output();
+        $filename = 'livre_' . $livreId . '.pdf';
+        $path = public_path('pdfs') . '/' . $filename;
+        file_put_contents($path, $output);
+        return $filename;
+    }
+
 }

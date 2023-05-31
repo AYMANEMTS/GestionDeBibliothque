@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\emprunt;
 use App\Models\Livre;
+use App\Models\Msage;
 use App\Models\Utilisateure;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -13,10 +14,14 @@ use MongoDB\Driver\Session;
 
 class EtudiantController extends Controller
 {
-    public function dashbord (){
+    public function dashbord()
+    {
+        return view('etudiant.dashbord');
+    }
+    public function mes_emprunts (){
         $user = Auth::user();
         $emp = emprunt::where('utilisateure_id',$user->id)->get();
-        return view('etudiant.index',compact('emp'));
+        return view('etudiant.livres.mes_emprunts',compact('emp'));
     }
     public function profile ($id)
     {
@@ -85,7 +90,7 @@ class EtudiantController extends Controller
     }
     public function books()
     {
-        $book = Livre::all();
+        $book = Livre::paginate(8);
         return view('etudiant.livres.livres',compact('book'));
     }
     public function showbook($id)
@@ -114,6 +119,25 @@ class EtudiantController extends Controller
         ]);
         return back()->with(['done'=>'Le livre a été emprunté avec succès
         Votre demande est en attente de confirmation.']);
+    }
+
+    public function messages()
+    {
+        $userId = Auth::user()->id;
+        $msages = Msage::where('utilisateure_id',$userId)->get();
+        return view('etudiant.msages',compact('msages'));
+    }
+    public function deleteMessage($id)
+    {
+        $msage = Msage::find($id);
+        $msage->delete();
+        return back();
+    }
+    public function deleteEmprunt($id)
+    {
+        $emprunt = emprunt::find($id);
+        $emprunt->delete();
+        return back();
     }
 }
 
