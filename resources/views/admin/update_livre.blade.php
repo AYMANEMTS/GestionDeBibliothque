@@ -59,13 +59,7 @@
             <div class="row">
                 <div class="col-md-6 mb-4">
                     <div class="form-outline" >
-                        <select id="launge"  name="launge" class="form-select">
-                            <option style="font-size: 16px;" selected>Launge : </option>
-                            <option style="font-size: 16px;" value="espagnol"{{ old('launge') == 'espagnol' ? 'selected' : '' }}>espagnol</option>
-                            <option style="font-size: 16px;" value="anglais"{{ old('launge') == 'anglais' ? 'selected' : '' }}>anglais</option>
-                            <option style="font-size: 16px;" value="arabe" {{ old('launge') == 'arabe' ? 'selected' : '' }}>arabe</option>
-                            <option style="font-size: 16px;" value="français" {{ old('launge') == 'français' ? 'selected' : '' }}>français</option>
-                        </select>
+                        <input class="form-control form-control-lg" name="launge" value="{{ $livre->launge }}">
                         <label class="form-label" for="emailAddress">Launge </label>
                     </div>
                 </div>

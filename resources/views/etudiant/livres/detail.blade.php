@@ -41,7 +41,7 @@
                         <form method="post" action="{{ route('empruntunlivre',$book->id    ) }}">
                             @csrf
                             <label class="form-label">Date emprunt</label>
-                            <input class="form-control" type="date" name="date_emp" >
+                            <input class="form-control" required type="date" name="date_emp" >
                             <button class="btn btn-success" type="submit">Submit</button>
                         </form>
                     </div>

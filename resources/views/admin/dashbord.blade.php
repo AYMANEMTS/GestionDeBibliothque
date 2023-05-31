@@ -159,7 +159,7 @@
                                     <th>Livre</th>
                                     <th>User</th>
                                     <th>Date de retour</th>
-                                    <th>Refuse</th>
+                                    <th>Rendu</th>
 
                                 </tr>
                                 </thead>
@@ -188,58 +188,6 @@
             </div>
         </div>
     </div>
-
-        <div class="row">
-            <div class="col-xl-7 col-lg-5">
-                <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
-                    <div
-                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Emprunte Refuse</h6>
-                        <div class="dropdown no-arrow">
-                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        <div class="chart-pie pt-1 pb-2">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                    <tr>
-                                        <th>Livre</th>
-                                        <th>User</th>
-                                        <th>Delete</th>
-                                    </tr>
-                                    </thead>
-                                    @foreach($emp_refuse as $emp)
-                                    <tbody>
-                                    <tr>
-                                        <td>{{$emp->livre->titre}} ({{$emp->livre->id}})</td>
-                                        <td>{{$emp->user->username}} ({{$emp->user->id}})</td>
-                                        <td>
-                                            <form action="{{ route('moder.emprunt.delete',$emp->id) }}" method="post" >
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                    @endforeach
-                                </table>
-                            </div>
-
-                            <canvas id="myPieChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
 
     </div>
     <!-- End of Main Content -->

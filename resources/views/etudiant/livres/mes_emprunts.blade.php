@@ -19,7 +19,7 @@
                     <th>Status</th>
                     <th>Date d'emprunt</th>
                     <th>Date de retour</th>
-                    <th>Periode</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -35,7 +35,7 @@
                                     class="rounded-circle"
                                 />
                                 <div class="ms-3">
-                                    <p class="fw-bold mb-1">{{ $item->livre->autheur }}</p>
+                                    <p class="fw-bold mb-1">{{ $item->livre->titre }}</p>
                                 </div>
                             </div>
                         </td>
@@ -51,8 +51,10 @@
                                 <p class="badge badge-success rounded-pill d-inline bg-warning">en attend</p>
                             @elseif($item->status == 'refuse')
                                 <p class="badge badge-success rounded-pill d-inline bg-danger">{{ $item->status }}</p>
-                            @else
+                            @elseif($item->status == 'accepter')
                                 <p class="badge badge-success rounded-pill d-inline bg-success">{{ $item->status }}</p>
+                            @else
+                                <p class="badge badge-success rounded-pill d-inline bg-warning">{{ $item->status }}</p>
                             @endif
                         </td>
                         <td>
@@ -60,10 +62,18 @@
                         </td>
                         <td>
                             <p class="fw-normal mb-1">{{ \Carbon\Carbon::parse($item->date_fin)->format('Y-m-d') }}</p>
-                        </td><td>
-                            <p class="fw-normal mb-1">{{ $item->periode($item->date_fin,$item->date_emp) }}</p>
                         </td>
-
+                        <td>
+                            @if($item->status == 'refuse' || $item->status == 'rendu' || $item->status == 'attend')
+                            <p class="fw-normal mb-1">
+                                <form action="{{ route('deleteEmprunt',$item->id) }}" method="post" >
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </p>
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>

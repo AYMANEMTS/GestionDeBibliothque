@@ -41,6 +41,7 @@
         <div class="col-md-7">
             <img style="height: 400px" src="{{ asset('./images_Livres/'.$livre->image) }}" alt="project-image" class="rounded">
         </div><!-- / column -->
+{{--        <a href="{{ asset('./pdfs/livre_'.$livre->id .'.pdf') }}" class="btn btn-primary">View Pdf</a>--}}
     </div>
 </div>
 <!-- Delete Livre Modal -->

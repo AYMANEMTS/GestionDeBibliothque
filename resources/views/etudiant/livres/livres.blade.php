@@ -30,15 +30,18 @@
                             <h2 class="card-title">{{ $livre->titre }}</h2>
                             <p class="card-text text-dark">Autheur : <span style="color: #012970">{{ $livre->autheur }}</span></p>
                             <p class="card-text text-dark">Catrgorie : <span style="color: #012970">{{ $livre->categorie }}</span></p>
-                            <p class="card-text text-dark">Status : <span style="color: #012970">@if($livre->dispo = 1)
-                              <p class="text-success">Disponible</p>@else <p class="text-danger">Not Disponible</p>
-                            @endif</span></p>
+                            @if($livre->dispo == 1)
+                                <p class="text-dark">Status : <span style="color:green">Disponible</span></p>
+                            @elseif($livre->dispo == 0)
+                                <p class="text-dark ">Status : <span style="color:red">Not Disponible</span></p>
+                            @endif
                             <a class="btn btn-primary" href="{{ route('detail' ,$livre->id) }}">View</a>
                         </div>
                     </div><!-- End Card with an image on top -->
                 </div>
                 @endforeach
             </div>
+            {{ $book->links() }}
         </section>
     </main>
 <style>

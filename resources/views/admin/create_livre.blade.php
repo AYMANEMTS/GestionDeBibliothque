@@ -65,13 +65,7 @@
         <div class="row">
             <div class="col-md-6 mb-4">
                 <div class="form-outline" >
-                    <select id="launge" name="launge" class="form-select">
-                        <option style="font-size: 16px;" selected>Launge : </option>
-                        <option style="font-size: 16px;" value="espagnol">espagnol</option>
-                        <option style="font-size: 16px;" value="anglais">anglais</option>
-                        <option style="font-size: 16px;" value="arabe">arabe</option>
-                        <option style="font-size: 16px;" value="français">français</option>
-                    </select>
+                    <input type="text" class="form-control form-control-lg" name="launge">
                     <label class="form-label" for="emailAddress">Launge </label>
                 </div>
             </div>

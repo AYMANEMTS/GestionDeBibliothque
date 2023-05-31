@@ -54,9 +54,9 @@
                     @endif
                     @if($emp->status == 'accepter')
                         <p><b>accepted</b></p>
-                            <form action="{{ route('moder.emprunt.refuse',$emp->id) }}" method="post" >
+                            <form action="{{ route('moder.renduEmprunt',$emp->id) }}" method="post" >
                                 @csrf
-                                <button type="submit" class="btn btn-sm btn-danger">Refuse</button>
+                                <button type="submit" class="btn btn-sm btn-warning">Rendu</button>
                             </form>
                     @endif
                     @if($emp->status == 'refuse')

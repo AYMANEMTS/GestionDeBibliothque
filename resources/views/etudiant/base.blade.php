@@ -64,8 +64,6 @@
                 </a>
             </li><!-- End Search Icon-->
 
-
-
             <li class="nav-item dropdown pe-3">
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="{{ route('profile',['id' => Auth::user()->id]) }}" data-bs-toggle="dropdown">
@@ -74,6 +72,13 @@
                     <span  class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->username }}</span>
                 </a><!-- End Profile Iamge Icon -->
             </li><!-- End Profile Nav -->
+            <li class="nav-item dropdown">
+
+                <a class="nav-link nav-icon" href="{{ route('messages') }}" >
+                    <i class="bi bi-bell"></i>
+                    <span class="badge bg-primary badge-number">{{ \App\Models\Msage::where('utilisateure_id',\Illuminate\Support\Facades\Auth::user()->id)->count() }}</span>
+                </a><!-- End Notification Icon -->
+            </li>
         </ul>
     </nav><!-- End Icons Navigation -->
 
@@ -85,7 +90,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link " href="{{ route('dashbord') }}">
+            <a class="nav-link " href="{{ route('Mydashbord') }}">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
@@ -101,7 +106,14 @@
                 <i class="bi bi-book-half"></i>
                 <span>Livres</span>
             </a>
-        </li><li class="nav-item">
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " href="{{ route('mes_emprunts') }}">
+                <i class="fas fa fa-table"></i>
+                <span>Mes emprunts</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link " href="{{ route('logout') }}">
                 <i class="bi bi-arrow-left-circle"></i>
                 <span>Logout</span>
