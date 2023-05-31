@@ -170,9 +170,9 @@
                                     <td>{{$emp->user->username}} ({{$emp->user->id}})</td>
                                     <td>{{$emp->date_fin}}</td>
                                     <td>
-                                        <form action="{{ route('moder.emprunt.refuse',$emp->id) }}" method="post" >
+                                        <form action="{{ route('moder.renduEmprunt',$emp->id) }}" method="post" >
                                             @csrf
-                                            <button type="submit" class="btn btn-sm btn-danger">Refuse</button>
+                                            <button type="submit" class="btn btn-sm btn-warning">Rendu</button>
                                         </form>
                                     </td>
 
@@ -213,7 +213,6 @@
                                         <th>Livre</th>
                                         <th>User</th>
                                         <th>Delete</th>
-                                        <th>Accepter</th>
                                     </tr>
                                     </thead>
                                     @foreach($emp_refuse as $emp)
@@ -226,12 +225,6 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <form method="post" action="{{ route('moder.emprunt.accepter',$emp->id) }}">
-                                                @csrf
-                                                <button type="submit" class="btn btn-sm btn-success">Accepter</button>
                                             </form>
                                         </td>
                                     </tr>
