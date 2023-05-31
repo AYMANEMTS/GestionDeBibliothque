@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('titre');
             $table->string('autheur');
             $table->text('description');
-            $table->enum('launge',['espagnol','anglais','arabe','français']);
+            $table->string('launge',50);
             $table->boolean('dispo');
             $table->string('image');
             $table->date('annee');

@@ -18,8 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('livre_id');
             $table->foreign('utilisateure_id')->references('id')->on('utilisateures')->onDelete('cascade');
             $table->foreign('livre_id')->references('id')->on('livres')->onDelete('cascade');
-            $table->dateTime('date_emp');
-            $table->dateTime('date_fin');
+            $table->date('date_emp');
+            $table->date('date_fin');
             $table->enum('status',['refuse','attend','accepter']);
             $table->timestamps();
         });
