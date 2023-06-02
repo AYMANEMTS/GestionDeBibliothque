@@ -16,7 +16,20 @@ class EtudiantController extends Controller
 {
     public function dashbord()
     {
-        return view('etudiant.dashbord');
+        $lastbooks = Livre::latest('created_at')->take(10)->get();
+        return view('etudiant.dashbord',compact('lastbooks'));
+    }
+    public function dash_pub()
+    {
+        $book = Livre::paginate(8);
+        return view('etudiant.dash_pub',compact('book'));
+    }
+
+    public function livre_pub($id)
+    {
+        $book = Livre::find($id);
+        $empr = emprunt::where('livre_id',$book->id)->first();
+        return view('etudiant.livre_pub',compact('book','empr'));
     }
     public function mes_emprunts (){
         $user = Auth::user();
