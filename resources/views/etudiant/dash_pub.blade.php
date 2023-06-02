@@ -65,19 +65,9 @@
             </li><!-- End Search Icon-->
 
             <li class="nav-item dropdown pe-3">
-
-                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="{{ route('profile',['id' => Auth::user()->id]) }}" data-bs-toggle="dropdown">
-                    <img src="{{ asset('./images_profiles/'. \Illuminate\Support\Facades\Auth::user()->profile_img) }}" alt="Profile" class="rounded-circle">
-
-                    <span  class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->username }}</span>
-                </a><!-- End Profile Iamge Icon -->
-            </li><!-- End Profile Nav -->
-            <li class="nav-item dropdown">
-
-                <a class="nav-link nav-icon" href="{{ route('messages') }}" >
-                    <i class="bi bi-bell"></i>
-                    <span class="badge bg-primary badge-number">{{ \App\Models\Msage::where('utilisateure_id',\Illuminate\Support\Facades\Auth::user()->id)->count() }}</span>
-                </a><!-- End Notification Icon -->
+                <a href="{{ route('login') }}" class="btn btn-sm btn-primary">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login</a>
             </li>
         </ul>
     </nav><!-- End Icons Navigation -->
@@ -89,36 +79,20 @@
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
+
         <li class="nav-item">
-            <a class="nav-link " href="{{ route('Mydashbord') }}">
-                <i class="bi bi-grid"></i>
-                <span>Dashboard</span>
-            </a>
-        </li><!-- End Dashboard Nav -->
-        <li class="nav-item">
-            <a class="nav-link " href="{{ route('profile',['id' => Auth::id()]) }}">
-                <i class="bi bi-person"></i>
-                <span>Profile</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link " href="{{ route('books') }}">
+            <a class="nav-link " href="{{ route('dash_pub') }}">
                 <i class="bi bi-book-half"></i>
                 <span>Livres</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link " href="{{ route('mes_emprunts') }}">
-                <i class="fas fa fa-table"></i>
-                <span>Mes emprunts</span>
+            <a class="nav-link " href="{{ route('login') }}" >
+                <i class="fas fa-sign-in-alt"></i>
+                <span>Login</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link " href="{{ route('logout') }}">
-                <i class="bi bi-arrow-left-circle"></i>
-                <span>Logout</span>
-            </a>
-        </li>
+
     </ul>
 
 </aside><!-- End Sidebar-->
@@ -126,9 +100,58 @@
 
 
 
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Dashbord</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">Livres</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section profile">
+        <div class="row">
+            @foreach($book as $livre)
+                <div class="col-xl-3">
+                    <!-- Card with an image on top -->
+                    <div class="card">
+
+                        <div class="card-img-top" style="background-image: url('{{ asset('./images_Livres/'.$livre->image) }}'); background-size: cover; height: 200px;"></div>
+                        <div class="card-body">
+                            <h2 class="card-title">{{ $livre->titre }}</h2>
+                            <p class="card-text text-dark">Autheur : <span style="color: #012970">{{ $livre->autheur }}</span></p>
+                            <p class="card-text text-dark">Catrgorie : <span style="color: #012970">{{ $livre->categorie }}</span></p>
+                            @if($livre->dispo == 1)
+                                <p class="text-dark">Status : <span style="color:green">Disponible</span></p>
+                            @elseif($livre->dispo == 0)
+                                <p class="text-dark ">Status : <span style="color:red">Not Disponible</span></p>
+                            @endif
+                            <a class="btn btn-primary" href="{{ route('livre_pub' ,$livre->id) }}">View</a>
+                        </div>
+                    </div><!-- End Card with an image on top -->
+                </div>
+            @endforeach
+        </div>
+        {{ $book->links() }}
+    </section>
+</main>
+<style>
+    .card-body {
+        position: relative;
+        padding: 0; /* Remove padding to avoid extra spacing */
+    }
+
+    .card-img-top {
+        max-width: 100%; /* Set the maximum width of the image to 100% of its container */
+        height: auto; /* Maintain aspect ratio */
+        display: block; /* Ensure the image is displayed as a block element */
+    }
+
+</style>
 
 
-@yield('main')
 
 
 
@@ -159,7 +182,7 @@
 <script src="{{ asset('assets/vendor/echarts/echarts.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/quill/quill.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
-<script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}" ></script>
 <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
 
 <!-- Template Main JS File -->

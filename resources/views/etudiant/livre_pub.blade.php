@@ -65,19 +65,9 @@
             </li><!-- End Search Icon-->
 
             <li class="nav-item dropdown pe-3">
-
-                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="{{ route('profile',['id' => Auth::user()->id]) }}" data-bs-toggle="dropdown">
-                    <img src="{{ asset('./images_profiles/'. \Illuminate\Support\Facades\Auth::user()->profile_img) }}" alt="Profile" class="rounded-circle">
-
-                    <span  class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->username }}</span>
-                </a><!-- End Profile Iamge Icon -->
-            </li><!-- End Profile Nav -->
-            <li class="nav-item dropdown">
-
-                <a class="nav-link nav-icon" href="{{ route('messages') }}" >
-                    <i class="bi bi-bell"></i>
-                    <span class="badge bg-primary badge-number">{{ \App\Models\Msage::where('utilisateure_id',\Illuminate\Support\Facades\Auth::user()->id)->count() }}</span>
-                </a><!-- End Notification Icon -->
+                <a href="{{ route('login') }}" class="btn btn-sm btn-primary">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login</a>
             </li>
         </ul>
     </nav><!-- End Icons Navigation -->
@@ -89,53 +79,68 @@
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
+
         <li class="nav-item">
-            <a class="nav-link " href="{{ route('Mydashbord') }}">
-                <i class="bi bi-grid"></i>
-                <span>Dashboard</span>
-            </a>
-        </li><!-- End Dashboard Nav -->
-        <li class="nav-item">
-            <a class="nav-link " href="{{ route('profile',['id' => Auth::id()]) }}">
-                <i class="bi bi-person"></i>
-                <span>Profile</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link " href="{{ route('books') }}">
+            <a class="nav-link " href="{{ route('dash_pub') }}">
                 <i class="bi bi-book-half"></i>
                 <span>Livres</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link " href="{{ route('mes_emprunts') }}">
-                <i class="fas fa fa-table"></i>
-                <span>Mes emprunts</span>
+            <a class="nav-link " href="{{ route('login') }}" >
+                <i class="fas fa-sign-in-alt"></i>
+                <span>Login</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link " href="{{ route('logout') }}">
-                <i class="bi bi-arrow-left-circle"></i>
-                <span>Logout</span>
-            </a>
-        </li>
+
     </ul>
 
 </aside><!-- End Sidebar-->
 
 
+<main id="main" class="main">
+    <div class="pagetitle">
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Dashbord</a></li>
+                <li class="breadcrumb-item active">Livres</li>
+            </ol>
+        </nav>
+    </div>
+    <section class="livre-detail">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="project-info-box mt-0">
+                    <h1 style="font-size: 25px">{{ $book->titre }}</h1>
+                    <p class="mb-0">{{ $book->description }}</p>
+                </div><!-- / project-info-box -->
 
+                <div class="project-info-box">
+                    <p><b>Autheur:</b> {{$book->autheur}}</p>
+                    <p><b>Categorie:</b> {{$book->categorie}}</p>
+                    <p><b>Date:</b> {{$book->annee}}</p>
+                    <p><b>Launge:</b> {{$book->launge}}</p>
+                    <p><b>Status:</b>{{$book->dispo?' Disponible':' Not Disponible'}} </p>
+                    @if($book->dispo == 0)
+                        <p><b>Date de retour : @isset($empr->date_fin)
+                                    {{\Carbon\Carbon::parse($empr->date_fin)->format('Y-m-d')}}
+                                @endisset
+                            </b> </p>
+                    @else
+                        <a  href="{{ route('login') }}" class="btn btn-success">Emprunter ce livre</a>
+                    @endif
+                </div><!-- / project-info-box -->
 
+                <!-- / project-info-box -->
+            </div><!-- / column -->
 
-
-@yield('main')
-
-
-
-
-
-
+            <div class="col-md-7">
+                <img src="{{asset('./images_livres/'.$book->image)}}" alt="project-image" class="rounded">
+            </div><!-- / column -->
+        </div>
+    </section>
 </main>
+
 
 <!-- ======= Footer ======= -->
 <footer id="footer" class="footer">
@@ -159,7 +164,7 @@
 <script src="{{ asset('assets/vendor/echarts/echarts.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/quill/quill.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
-<script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}" ></script>
 <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
 
 <!-- Template Main JS File -->
