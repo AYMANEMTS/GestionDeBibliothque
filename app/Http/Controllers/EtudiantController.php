@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\emprunt;
 use App\Models\Livre;
 use App\Models\Msage;
+use App\Models\Post;
 use App\Models\Utilisateure;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -22,14 +23,14 @@ class EtudiantController extends Controller
     public function dash_pub()
     {
         $book = Livre::paginate(8);
-        return view('etudiant.dash_pub',compact('book'));
+        return view('etudiant.public.dash_pub',compact('book'));
     }
 
     public function livre_pub($id)
     {
         $book = Livre::find($id);
         $empr = emprunt::where('livre_id',$book->id)->first();
-        return view('etudiant.livre_pub',compact('book','empr'));
+        return view('etudiant.public.livre_pub',compact('book','empr'));
     }
     public function mes_emprunts (){
         $user = Auth::user();
@@ -151,6 +152,14 @@ class EtudiantController extends Controller
         $emprunt = emprunt::find($id);
         $emprunt->delete();
         return back();
+    }
+
+    public function myPost()
+    {
+        $userId = Auth::user()->id;
+        $posts = Post::where('utilisateure_id',$userId)->get();
+        return view('etudiant.posts.my_post',compact('posts'));
+
     }
 }
 

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Post;
 use Dompdf\Dompdf;
 use App\Models\emprunt;
 use App\Models\Livre;
@@ -17,7 +18,8 @@ class AdminController extends Controller
         $emp_accepter = emprunt::where('status','accepter')->get();
         $emp_refuse = emprunt::where('status','refuse')->get();
         $total_etd = Utilisateure::where('role','etudiant')->count();
-        return view('admin.dashbord',compact('emp_enattend','emp_accepter','emp_refuse',
+        $posts = Post::where('status','attend')->get();
+        return view('admin.dashbord',compact('emp_enattend','posts','emp_accepter','emp_refuse',
         'total_etd'));
     }
 
@@ -238,6 +240,34 @@ class AdminController extends Controller
         $path = public_path('pdfs') . '/' . $filename;
         file_put_contents($path, $output);
         return $filename;
+    }
+
+    public function acceptPost($id)
+    {
+        $post = Post::findOrFail($id);
+        $post->update(['status'=>'accepter']);
+        return back()->with(['done'=>'post est accepter']);
+    }
+    public function refusePost($id)
+    {
+        $post = Post::findOrFail($id);
+        $post->delete();
+        return back()->with(['done'=>'post est suprimer']);
+    }
+    public function postsacc()
+    {
+        $posts = Post::where('status','accepter')->paginate(6);
+        return view('admin.posts_acc',compact('posts'));
+    }
+    public function postsatt()
+    {
+        $posts = Post::where('status','attend')->paginate(6);
+        return view('admin.posts_att',compact('posts'));
+    }
+    public function postshow($id)
+    {
+        $post = Post::findOrFail($id);
+        return view('admin.post_show',compact('post'));
     }
 
 }
