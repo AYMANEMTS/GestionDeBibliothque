@@ -117,54 +117,28 @@
         </nav>
     </div><!-- End Page Title -->
 
-    <section class="section profile">
+    <div class="container-fluid">
         <div class="row">
-            @foreach($book as $livre)
-                <div class="col-xl-3">
-                    <!-- Card with an image on top -->
-                    <div class="card">
-
-                        <div class="card-img-top" style="background-image: url('{{ asset('./images_Livres/'.$livre->image) }}'); background-size: cover; height: 200px;"></div>
-                        <div class="card-body">
-                            <h2 class="card-title">{{ $livre->titre }}</h2>
-                            <p class="card-text text-dark">Autheur : <span style="color: #012970">{{ $livre->autheur }}</span></p>
-                            <p class="card-text text-dark">Catrgorie : <span style="color: #012970">{{ $livre->categorie }}</span></p>
-                            @if($livre->dispo == 1)
-                                <p class="text-dark">Status : <span style="color:green">Disponible</span></p>
-                            @elseif($livre->dispo == 0)
-                                <p class="text-dark ">Status : <span style="color:red">Not Disponible</span></p>
-                            @endif
-                            <a class="btn btn-primary" href="{{ route('livre_pub' ,$livre->id) }}">View</a>
-                        </div>
-                    </div><!-- End Card with an image on top -->
+            <div class="col-lg-10">
+                <div class="text-primary text-lg">
+                    <h1>{{ $post->title }}</h1>
                 </div>
-            @endforeach
+            </div>
         </div>
-        {{ $book->links() }}
-    </section>
-</main>
-<style>
-    .card-body {
-        position: relative;
-        padding: 0; /* Remove padding to avoid extra spacing */
-    }
-
-    .card-img-top {
-        max-width: 100%; /* Set the maximum width of the image to 100% of its container */
-        height: auto; /* Maintain aspect ratio */
-        display: block; /* Ensure the image is displayed as a block element */
-    }
-
-</style>
-
-
-
-
-
-
+        <div class="row">
+            <div class="col-lg-7">
+                <p>{!! $post->body !!}</p>
+            </div>
+            <div class="col-lg-5">
+                <img class="img-fluid img-thumbnail" src="{{ asset('./images_posts/'.$post->image) }}" alt="">
+            </div>
+        </div>
+    </div>
 
 
 </main>
+
+
 
 <!-- ======= Footer ======= -->
 <footer id="footer" class="footer">

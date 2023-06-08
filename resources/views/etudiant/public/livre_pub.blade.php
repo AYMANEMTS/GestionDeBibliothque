@@ -87,6 +87,12 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link " href="{{ route('posts_pub') }}">
+                <i class="fa-brands fa-blogger"></i>
+                <span>Blog</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link " href="{{ route('login') }}" >
                 <i class="fas fa-sign-in-alt"></i>
                 <span>Login</span>
@@ -120,7 +126,10 @@
                     <p><b>Categorie:</b> {{$book->categorie}}</p>
                     <p><b>Date:</b> {{$book->annee}}</p>
                     <p><b>Launge:</b> {{$book->launge}}</p>
-                    <p><b>Status:</b>{{$book->dispo?' Disponible':' Not Disponible'}} </p>
+                    <p><b>Status:</b>@if($book->dispo == 0)<span style="color: red"> Not Disponible</span>
+                        @else
+                            <span style="color: green"> Disponible</span>
+                        @endif</p>
                     @if($book->dispo == 0)
                         <p><b>Date de retour : @isset($empr->date_fin)
                                     {{\Carbon\Carbon::parse($empr->date_fin)->format('Y-m-d')}}

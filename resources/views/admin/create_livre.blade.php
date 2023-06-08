@@ -51,9 +51,9 @@
         <div class="row">
             <div class="col-md-6 mb-4">
                 <div class="form-outline">
-                    <textarea  name="description" rows="1"  class="form-control form-control-lg"></textarea>
                     <label class="form-label" for="firstName">Description</label>
-                </div>
+                    <textarea id="description" name="description" class="form-control form-control-lg"></textarea>
+                    </div>
             </div>
             <div class="col-md-6 mb-4">
                 <div class="form-outline">
@@ -84,7 +84,6 @@
 <h1></h1>
 <h1></h1>
     </form>
-
-
 </div>
+
 @endsection

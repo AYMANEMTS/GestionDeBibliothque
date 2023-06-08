@@ -20,6 +20,8 @@
     <!-- Custom styles for this template-->
     <link href="{{asset('dashbord2/css/sb-admin-2.min.css')}}" rel="stylesheet">
 
+    <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+
 </head>
 
 <body id="page-top">
@@ -33,9 +35,9 @@
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
             <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-laugh-wink"></i>
+                <i class="fas fa-book-open"></i>
             </div>
-            <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+            <div class="sidebar-brand-text mx-3">BookStore </div>
         </a>
 
         <!-- Divider -->
@@ -76,6 +78,14 @@
             <a class="nav-link" href="{{ route('moder.emprunts') }}">
                 <i class="fas fa fa-table"></i>
                 <span>Emprunts</span></a>
+        </li>
+
+        <hr class="sidebar-divider">
+
+        <li class="nav-item active">
+            <a class="nav-link" href="{{ route('moder.postsacc') }}">
+                <i class="fas fa-blog"></i>
+                <span>Blog</span></a>
         </li>
 
         <!-- Divider -->
@@ -349,7 +359,6 @@
         </div>
     </div>
 </div>
-
 <!-- Bootstrap core JavaScript-->
 <script src="{{asset('dashbord2/vendor/jquery/jquery.min.js')}}"></script>
 <script src="{{ asset('dashbord2/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -368,5 +377,6 @@
 <script src="js/demo/chart-pie-demo.js"></script>
 
 </body>
+
 
 </html>

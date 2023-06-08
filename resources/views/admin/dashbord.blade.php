@@ -2,11 +2,13 @@
 @section('moder2')
     <div class="container-fluid">
     <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+    <div class="d-sm-flex align-items-center justify-content-end mb-4 ">
+
+        <a href="{{ route('moder.formCreateEtudient') }}" class="m-1 btn btn-sm btn-primary shadow-sm">Cree un Etudiant</a>
+        <a href="{{ route('moder.livre.FormCreate') }}" class="m-1 btn btn-sm btn-primary shadow-sm">Cree un livre</a>
     </div>
+
 
     <!-- Content Row -->
     <div class="row">
@@ -189,6 +191,53 @@
         </div>
     </div>
 
+        <div class="row">
+            <!-- Area Chart -->
+            <div class="col-lg-12 ">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Posts en attend</h6>
+
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>Post (id)</th>
+                                        <th>User (id)</th>
+                                        <th>Created at</th>
+                                        <th>Accepter</th>
+                                        <th>Refuser</th>
+                                    </tr>
+                                    </thead>
+                                    @foreach($posts as $post)
+                                        <tbody>
+                                        <tr>
+                                            <td>{{ $post->title }} ({{$post->id}})</td>
+                                            <td>{{ $post->users->username }}  ({{ $post->users->id }})</td>
+                                            <td>{{ \Carbon\Carbon::parse($post->created_at)->format('Y-m-d') }}</td>
+                                            <td>
+                                                <a href="{{ route('moder.acceptPost',$post->id) }}" class="btn btn-success">Accepter</a>
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('moder.refusePost',$post->id) }}" class="btn btn-danger">Refuse</a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    @endforeach
+                                </table>
+                            </div>
+
+                            <canvas id="myAreaChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- End of Main Content -->
 @endsection

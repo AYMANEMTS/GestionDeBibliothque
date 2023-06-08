@@ -18,7 +18,7 @@
             <p><b>Description : </b>{{ $data['description'] }} </p>
         </div>
         <div class="col-lg-4">
-            <img class="img-fluid" src="{{ asset('./images_livres/'.$data['image']) }}" alt="">
+            <img class="img-fluid" src="{{ asset('./images_Livres/'.$data['image']) }}" alt="">
         </div>
     </div>
 </div>
