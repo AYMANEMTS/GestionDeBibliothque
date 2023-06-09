@@ -27,9 +27,8 @@ class PostController extends Controller
 
 
 
-    public function store(Request $request,Post $post)
+    public function store(Request $request, Post $post)
     {
-        
         $imagePath = '';
 
         $data = $request->validate([
@@ -38,21 +37,46 @@ class PostController extends Controller
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        if ($request->hasFile('image')){
-            $request->validate(['image'=>'image|mimes:jpeg,png,jpg,gif|max:2048']);
+        if ($request->hasFile('image')) {
+            $request->validate(['image' => 'image|mimes:jpeg,png,jpg,gif|max:2048']);
             $image = $request->file('image');
             $imagePath = time() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('images_posts'),$imagePath);
+            $image->move(public_path('images_posts'), $imagePath);
         }
+
         $post::create([
-           'utilisateure_id' => Auth::user()->id,
+            'utilisateure_id' => Auth::user()->id,
             'image' => $imagePath,
             'title' => $data['title'],
             'body' => $request->body,
             'status' => 'attend'
         ]);
-        return to_route('Post.index')->with(['success' => 'votre post est en attend de confirmation ']);
+
+        return redirect()->route('Post.index')->with(['success' => 'Votre post est en attente de confirmation.']);
     }
+
+
+
+
+
+    public function upload(Request $request)
+    {
+        if ($request->hasFile('upload')) {
+            $originName = $request->file('upload')->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $request->file('upload')->getClientOriginalExtension();
+            $fileName = $fileName . '_' . time() . '.' . $extension;
+
+            $request->file('upload')->move(public_path('media'), $fileName);
+
+            $url = asset('media/' . $fileName);
+
+            return response()->json(['fileName' => $fileName, 'uploaded'=> 1, 'url' => $url]);
+        }
+
+        return response()->json(['uploaded' => false]);
+    }
+
     public function edit($id)
     {
         $post = Post::find($id);
