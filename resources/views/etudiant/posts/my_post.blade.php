@@ -38,6 +38,11 @@
                             </div>
                             <div class="card-footer text-muted d-flex justify-content-between bg-transparent border-top-0">
                                 <div class="views">{{Carbon\Carbon::parse($post->created_at)->format('M d, h:iA')}}
+                                    <p>@if($post->status == 'accepter')
+                                           <span class="text-lg text-success">Accepter</span>
+                                        @elseif($post->status == 'attend')
+                                            <span class="text-lg text-danger">En attend</span>
+                                        @endif</p>
                                 </div>
                                 <div class="stats">
                                     <form method="GET" action="{{ route('Post.destroy',$post->id) }}">

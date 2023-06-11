@@ -12,7 +12,7 @@
             </nav>
         </div><!-- End Page Title -->
         <div class="alert alert-secondary">
-            <li>Note : images max size : 2048</li>
+            <li>Note : image max size : 2048m</li>
         </div>
 
         <div class="posts">
@@ -61,6 +61,7 @@
                 ckfinder: {
                     uploadUrl: '{{route('upload.image').'?_token='.csrf_token()}}',
                 }
+
             })
             .catch( error => {
 
