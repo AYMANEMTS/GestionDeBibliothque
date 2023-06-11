@@ -70,6 +70,12 @@ Route::view('Blog/post/create','etudiant.posts.post_create')->name('Post.create'
 Route::post('submit/',[ComentController::class,'store'])->name('coment.store');
 Route::post('submit-child/',[ComentController::class,'storeChild'])->name('coment.storeChild');
 
+Route::get('python',function (){
+    $path = 'D:\Laravel-Project\gestionDeBibliothec\GestionDeBibliotheque\public\pyscript.py';
+    $output = [];
+    exec("python {$path} ", $output);
+    return $output;
+});
 
 
 Route::group(['middleware' => ['auth']],function (){
