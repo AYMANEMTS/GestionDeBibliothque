@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Coment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,22 +11,18 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::where('status','accepter')->paginate(8);
+
         return view('etudiant.posts.posts',compact('posts'));
     }
 
     public function show(string $id)
     {
         $post = Post::findOrFail($id);
-        return view('etudiant.posts.post_show',compact('post'));
+        $cmt = Coment::where('post_id',$id)->where('parent_id',null)->get();
+        $post->viewsCount();
+        return view('etudiant.posts.post_show',compact('post','cmt'));
     }
-
-    // public function createPost()
-    // {
-    //     return view('etudiant.posts.post_create');
-    // }
-
-
 
     public function store(Request $request, Post $post)
     {
