@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\ComentController;
 use App\Http\Controllers\EtudiantController;
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\SuperAdminController;
 use App\Models\Livre;
 use App\Models\Utilisateure;
@@ -11,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 
 /* Auth */
+Route::view('/','')->name('home');
 Route::view('login/','auth.login')->name('viewlogin');
 Route::post('login/',[AuthenticationController::class,'login'])->name('login');
 Route::view('signup/','auth.signup')->name('viewsignup');
@@ -24,12 +28,24 @@ Route::view('404','error404')->name('404');
 //
 
 
+Route::get('',[EtudiantController::class,'dash_pub'])->name('dash_pub');
+Route::get('livre/{id}',[EtudiantController::class,'livre_pub'])->name('livre_pub');
+Route::get('Posts/',function (){
+    $posts = \App\Models\Post::paginate(6);
+    return view('etudiant.public.posts_pub',compact('posts'));
+})->name('posts_pub');
+Route::get('Post/{id}',function ($id){
+    $post = \App\Models\Post::findOrFail($id);
+    return view('etudiant.public.post_show_pub',compact('post'));
+})->name('post_show_pub');
+
 /* Etudiant */
 Route::group(['middleware' => ['auth']],function (){
    Route::controller(EtudiantController::class)->group(function (){
        /* Etudiant profile*/
        //Route::view('/','etudiant.index')->name('hompage');
-       Route::get('dashbord/','dashbord')->name('dashbord');
+       Route::get('Mydashbord/','dashbord')->name('Mydashbord');
+       Route::get('mes_emprunts/','mes_emprunts')->name('mes_emprunts');
        Route::get('profile/{id}','profile')->name('profile');
        Route::get('profile/{id}/edit','editprofile')->name('editprofile');
        Route::put('profile/{id}/edit','updateprofile')->name('updateprofile');
@@ -41,8 +57,35 @@ Route::group(['middleware' => ['auth']],function (){
        Route::get('livres/detail/{id}','showbook')->name('detail');
        Route::post('livre/{id}/emprunt','empruntlivre')->name('empruntunlivre');
 
+       Route::delete('delete/emprunt/{id}','deleteEmprunt')->name('deleteEmprunt');
+
+       Route::get('messages/','messages')->name('messages');
+       Route::delete('messages/delete/{id}','deleteMessage')->name('deleteMessage');
+
+       Route::get('myPost/','myPost')->name('myPost');
    });
 });
+
+Route::view('Blog/post/create','etudiant.posts.post_create')->name('Post.create')->middleware('auth');
+Route::post('submit/',[ComentController::class,'store'])->name('coment.store');
+Route::post('submit-child/',[ComentController::class,'storeChild'])->name('coment.storeChild');
+
+
+
+Route::group(['middleware' => ['auth']],function (){
+    Route::controller(PostController::class)->group(function (){
+        Route::get('Blog/posts','index')->name('Post.index');
+        Route::get('Blog/post/{id}','show')->name('Post.show');
+        Route::post('Blog/post/store','store')->name('Post.store');
+        Route::get('Blog/post/edit/{id}','edit')->name('Post.edit');
+        Route::post('Blog/post/edit/{id}','update')->name('Post.update');
+        Route::get('Blog/post/delete/{id}','destroy')->name('Post.destroy');
+
+    });
+});
+
+
+
 
 
 /* Super Admin */
@@ -96,9 +139,23 @@ Route::group(['middleware' => ['auth','chek.role.etd']],function (){
            Route::get('emprunts','emprunts')->name('emprunts');
            Route::post('emprunts/refuse/{id}','refuseEmprunt')->name('emprunt.refuse');
            Route::delete('emprunts/{id}/delete','deleteEmprunt')->name('emprunt.delete');
+           Route::post('emprunt/rendu/{id}','renduEmprunt')->name('renduEmprunt');
+
+           // return posts
+           Route::get('posts/accepter','postsacc')->name('postsacc');
+           Route::get('posts/enattend','postsatt')->name('postsatt');
+           Route::get('post/{id}','postshow')->name('postshow');
+
+           // back
+           Route::get('post/{id}/accept','acceptPost')->name('acceptPost');
+           Route::get('post/{id}/refuse','refusePost')->name('refusePost');
+
        });
     });
 });
 
 
-Route::view('test/','admin.base');
+
+Route::post('upload-image', [PostController::class, 'upload'])->name('upload.image');
+
+Route::view('test','test');
