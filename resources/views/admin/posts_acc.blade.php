@@ -20,6 +20,7 @@
                 <th>ID</th>
                 <th>Post</th>
                 <th>User</th>
+                <th>View/Comment</th>
                 <th>Created_at</th>
                 <th>Actions</th>
             </tr>
@@ -54,6 +55,9 @@
                             </div>
                         </div>
                     </td> <!--user-->
+                    <td><i class="far fa-eye"></i> {{ $post->views }}
+                        <i class="far fa-comment"></i> {{ $post->comments->count() }}
+                    </td>
                     <td>{{ \Carbon\Carbon::parse($post->created_at)->format('Y-m-d') }}</td> <!--created_at-->
                     <td>
                         <a href="{{ route('moder.postshow',$post->id) }}" type="button" style="padding: 2px" class="btn  btn-sm btn-primary">View</a>
