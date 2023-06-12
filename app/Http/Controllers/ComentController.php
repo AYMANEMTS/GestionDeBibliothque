@@ -63,6 +63,7 @@ class ComentController extends Controller
     public function destroy(string $id)
     {
         $cmnt = Coment::findOrFail($id);
+        $cmnt->replies()->delete();
         $cmnt->delete();
         return back();
     }
