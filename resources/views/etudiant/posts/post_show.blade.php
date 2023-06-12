@@ -54,9 +54,18 @@
                                     <div class="ml-1">
                                         <input name="parent_id" value="{{ $comment->id }}" hidden>
                                         <div class="fw-bold">{{ $comment->user->username }}
-                                            <a class="reply-link" style="margin-left: 20px" href="#!"><i class="fas fa-reply fa-xs"></i><span class="small"> reply</span></a>
+                                            <a class="reply-link" style="margin-left: 20px" href=""><i class="fas fa-reply fa-xs"></i><span class="small"> reply</span></a>
+                                        @if($comment->user_id == \Illuminate\Support\Facades\Auth::user()->id)
+                                                <a class="reply-link-edit"  href=""><i class="fa-solid fa-pen"></i></a>
+                                                <a href="{{ route('coment.destroy',$comment->id) }}"  class="trash"  ><i class="fa-solid fa-trash"></i></a>
+                                       @endif
                                         </div>
-                                        <p>{{ $comment->body }}</p>
+                                        <p class="comment-body">{{ $comment->body }}</p>
+                                        <form class="comment-body-input" method="post" action="{{ route('coment.update',$comment->id) }}">
+                                            @csrf
+                                            <input type="text" name="body_update" class="form-control"  value="{{ $comment->body }}">
+                                            <input class="btn btn-sm btn-info m-1" type="submit" value="update">
+                                        </form>
                                         <div class="reply-input" style="display: none;">
                                             <form method="post" action="{{ route('coment.storeChild') }}">
                                                 @csrf
@@ -73,9 +82,22 @@
                                                         <div class="flex-shrink-0 m-2"><img style="width: 40px;height: 40px" class="rounded-circle m-0" src="{{ asset('./images_profiles/'.$reply->user->profile_img) }}" alt="..." /></div>
                                                     @else
                                                         <div class="flex-shrink-0"><img class="rounded-circle m-0" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                                    @endif                                                    <div class="ml-1">
-                                                        <div class="fw-bold">{{ $reply->user->username }}</div>
-                                                        {{ $reply->body }}
+                                                    @endif
+                                                        <div class="ml-1">
+
+                                                        <div class="fw-bold">{{ $reply->user->username }}
+                                                            @if($reply->user_id == \Illuminate\Support\Facades\Auth::user()->id)
+                                                                <a class="reply-link-edit" style="margin-left: 10px"  href=""><i class="fa-solid fa-pen"></i></a>
+                                                                <a href="{{ route('coment.destroy',$reply->id) }}"  class="trash"  ><i class="fa-solid fa-trash"></i></a>
+
+                                                            @endif
+                                                        </div>
+                                                            <p class="comment-body">{{ $reply->body }}</p>
+                                                            <form class="comment-body-input" method="post" action="{{ route('coment.update',$comment->id) }}">
+                                                                @csrf
+                                                                <input type="text" name="body_update" class="form-control"  value="{{ $reply->body }}">
+                                                                <input class="btn btn-sm btn-info m-1" type="submit" value="update">
+                                                            </form>
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -101,4 +123,28 @@
             });
         });
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.reply-link-edit').click(function(e) {
+                e.preventDefault();
+                var commentDetails = $(this).closest('.d-flex');
+                var commentBody = commentDetails.find('.comment-body');
+                var commentInput = commentDetails.find('.comment-body-input');
+
+                if (commentBody.is(':visible')) {
+                    commentBody.hide();
+                    commentInput.show();
+                    commentInput.focus();
+                } else {
+                    commentBody.show();
+                    commentInput.hide();
+                }
+            });
+            // Hide input fields initially
+            $('.comment-body-input').hide();
+        });
+    </script>
+
+
 @endsection
