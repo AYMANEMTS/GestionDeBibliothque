@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Coment;
 use App\Models\Post;
 use Dompdf\Dompdf;
 use App\Models\emprunt;
@@ -267,7 +268,8 @@ class AdminController extends Controller
     public function postshow($id)
     {
         $post = Post::findOrFail($id);
-        return view('admin.post_show',compact('post'));
+        $cmt = Coment::where('post_id',$id)->where('parent_id',null)->get();
+        return view('admin.post_show',compact('post','cmt'));
     }
 
 }
