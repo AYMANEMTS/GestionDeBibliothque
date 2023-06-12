@@ -49,28 +49,12 @@ class ComentController extends Controller
         return back();
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $cmnt = Coment::findOrFail($id);
+        $cmnt->update(['body'=>$request->body_update]);
+        return back();
     }
 
     /**
@@ -78,6 +62,8 @@ class ComentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $cmnt = Coment::findOrFail($id);
+        $cmnt->delete();
+        return back();
     }
 }
