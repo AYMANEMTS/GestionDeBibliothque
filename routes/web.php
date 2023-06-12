@@ -31,7 +31,7 @@ Route::view('404','error404')->name('404');
 Route::get('',[EtudiantController::class,'dash_pub'])->name('dash_pub');
 Route::get('livre/{id}',[EtudiantController::class,'livre_pub'])->name('livre_pub');
 Route::get('Posts/',function (){
-    $posts = \App\Models\Post::paginate(6);
+    $posts = \App\Models\Post::where('status','accepter')->paginate(8);
     return view('etudiant.public.posts_pub',compact('posts'));
 })->name('posts_pub');
 Route::get('Post/{id}',function ($id){
