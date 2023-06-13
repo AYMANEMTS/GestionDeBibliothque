@@ -18,7 +18,7 @@
             <div class="container-fluid">
                 <form id="submit-form" method="post" action="{{ route('Post.update',$post->id) }}" enctype="multipart/form-data">
                     @csrf
-                    
+
                     <div class="row">
                         <div class="col-lg-6">
                             <label class="form-label">Title</label>
@@ -55,43 +55,18 @@
             </div>
         </div>
     </main>
-    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            CKEDITOR.replace(document.querySelector('#editor'), {
-                filebrowserUploadUrl: "{{ route('upload.image',['_token' => csrf_token() ]) }}",
-                filebrowserUploadMethod: 'form'
+        ClassicEditor
+            .create( document.querySelector( '#editor' ),{
+                ckfinder: {
+                    uploadUrl: '{{route('upload.image').'?_token='.csrf_token()}}',
+                }
+
             })
-                .then(editor => {
-                    console.log('Editor initialized:', editor);
-                })
-                .catch(error => {
-                    console.error('Error initializing editor:', error);
-                });
-    
-            document.querySelector('#submit-form').addEventListener('submit', function (e) {
-                e.preventDefault();
-    
-                const form = e.target;
-                const formData = new FormData(form);
-    
-                $.ajax({
-                    url: form.action,
-                    data: formData,
-                    type: 'POST',
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success: function (data) {
-                        alert(data.msg);
-                    },
-                    error: function (xhr, textStatus, error) {
-                        console.error('Error submitting form:', error);
-                    }
-                });
-            });
-        });
+            .catch( error => {
+
+            } );
     </script>
 @endsection

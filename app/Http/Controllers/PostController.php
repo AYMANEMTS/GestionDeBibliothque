@@ -11,7 +11,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::where('status','accepter')->paginate(8);
+        $posts = Post::where('status','accepter')->latest()->paginate(8);
 
         return view('etudiant.posts.posts',compact('posts'));
     }

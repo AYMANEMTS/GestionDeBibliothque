@@ -16,7 +16,17 @@
                         {{ session('done') }}
                     </div>
                 @endif
-                <div class="col-md-5">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <div class="col-md-5">
                     <div class="project-info-box mt-0">
                         <h1 style="font-size: 25px">{{ $book->titre }}</h1>
                         <p class="mb-0">{{ $book->description }}</p>
@@ -27,7 +37,11 @@
                         <p><b>Categorie:</b> {{$book->categorie}}</p>
                         <p><b>Date:</b> {{$book->annee}}</p>
                         <p><b>Launge:</b> {{$book->launge}}</p>
-                        <p><b>Status:</b>{{$book->dispo?' Disponible':' Not Disponible'}} </p>
+                        <p><b>Status:</b>@if($book->dispo == 1 )
+                                             <span style="color: green">Disponible</span>
+                            @else
+                                             <span style="color: red">Not disponible</span>
+                        @endif </p>
                         @if($book->dispo == 0)
                             <p><b>Date de retour : @isset($empr->date_fin)
                                         {{\Carbon\Carbon::parse($empr->date_fin)->format('Y-m-d')}}
@@ -36,6 +50,8 @@
                         @else
                             <a  id="emprunterBtn" class="btn btn-success">Emprunter ce livre</a>
                         @endif
+
+
                     </div><!-- / project-info-box -->
                     <div id="emprunterForm" style="display: none;">
                         <form method="post" action="{{ route('empruntunlivre',$book->id    ) }}">

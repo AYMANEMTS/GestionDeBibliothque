@@ -15,7 +15,13 @@ class Utilisateure extends Authenticatable
     use Notifiable;
     protected $table = 'utilisateures';
     protected $fillable = ['username','email','phone','adress','CIN','first_name','last_name','profile_img',
-        'role','gender','password'];
+        'role','gender','password','countlivreRendu'];
+
+    public function CountRendu()
+    {
+        $this->countlivreRendu++;
+        $this->save();
+    }
     use HasFactory;
 }
 

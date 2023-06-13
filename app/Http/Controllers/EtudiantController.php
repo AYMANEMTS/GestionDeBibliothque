@@ -17,8 +17,17 @@ class EtudiantController extends Controller
 {
     public function dashbord()
     {
-        $lastbooks = Livre::latest('created_at')->take(10)->get();
-        return view('etudiant.dashbord',compact('lastbooks'));
+        $user = Auth::user();
+        $livreDisponible = Livre::where('dispo',1)->get();
+        $lastBooks = Livre::latest()->take(6)->get();
+        $lastPosts= Post::latest()->take(6)->get();
+        $livreRendu = $user->countlivreRendu;
+        $coustomers = Utilisateure::where('role','etudiant')->get();
+        $posts = Post::where('utilisateure_id',Auth::user()->id)->get();
+        $mesEmprunts = emprunt::where('utilisateure_id',$user->id)->get();
+
+        return view('etudiant.dashbord',compact('livreDisponible','livreRendu'
+        ,'coustomers','posts','lastBooks','lastPosts','mesEmprunts'));
     }
     public function dash_pub()
     {
@@ -104,12 +113,12 @@ class EtudiantController extends Controller
     }
     public function books()
     {
-        $book = Livre::paginate(8);
+        $book = Livre::latest()->paginate(8);
         return view('etudiant.livres.livres',compact('book'));
     }
     public function showbook($id)
     {
-            $book = Livre::find($id);
+            $book = Livre::findOrFail($id);
             $empr = emprunt::where('livre_id',$book->id)->first();
             return view('etudiant.livres.detail',compact('book','empr'));
     }
@@ -118,6 +127,14 @@ class EtudiantController extends Controller
         $user = Auth::user();
         $livre = Livre::find($id);
         $emp = emprunt::where('utilisateure_id',$user->id)->get();
+        $existingEmprunt = emprunt::where('utilisateure_id', $user->id)
+            ->where('livre_id', $livre->id)
+            ->first();
+
+        if ($existingEmprunt) {
+            return back()->withErrors(['error' => 'Vous avez déjà emprunté ce livre.']);
+        }
+
         if ($emp->count() >= 3){
             return redirect()->route('books')->withErrors(['error'=>'you much emprunt min is 3 emprunt']);
         }

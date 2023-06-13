@@ -220,13 +220,15 @@ class AdminController extends Controller
         $emprunt = emprunt::find($id);
         $livre = Livre::where('id',$emprunt->livre_id)->first();
         $livre->update(['dispo' => 1]);
-        $emprunt->update(['status' => 'rendu']);
+        $user = Utilisateure::where('id',$emprunt->utilisateure_id)->first();
+        $user->CountRendu();
         Msage::create([
             'emprunt_id' => $emprunt->id,
             'utilisateure_id' => $emprunt->utilisateure_id,
             'status' => 'accepter',
             'msage' => 'Merci pour retourner livre '.$livre->titre,
         ]);
+        $emprunt->delete();
         return back();
     }
 
