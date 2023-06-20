@@ -37,4 +37,18 @@ class Post extends Model
     {
         return $this->hasMany(Coment::class);
     }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+    public function deslikes()
+    {
+        return $this->hasMany(Deslike::class);
+    }
+
+    public function isLikedByLoggedInUser()
+    {
+        return $this->likes->where('user_id', auth()->user()->id)->isEmpty() ? false : true;
+    }
 }
