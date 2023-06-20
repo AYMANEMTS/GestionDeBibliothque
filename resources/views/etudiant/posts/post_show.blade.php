@@ -17,7 +17,20 @@
                             <!-- Post categories-->
                             <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
                             <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
+                            <div class="d-flex align-items">
+                                <form action="{{ route('posts.like') }}" id="form-js">
+                                    <div id="count-js">{{ $post->likes->count() }} Like(s)</div>
+                                    <input type="hidden" id="post-id-js" value="{{ $post->id }}">
+                                    <button type="submit" class="btn btn-link btn-sm">J'aime</button>
+                                </form>
+                                <form action="{{ route('posts.deslike') }}" id="form-deslike-post">
+                                    <div id="count-js">{{ $post->deslikes->count() }} Dislike(s)</div>
+                                    <input type="hidden" id="post-id-js" value="{{ $post->id }}">
+                                    <button type="submit" class="btn btn-link btn-sm">J'aime pas</button>
+                                </form>
+                            </div>
                         </header>
+
                         <!-- Preview image figure-->
                         @if($post->image)
                             <figure class="mb-4"><img style="max-height: 250px" class="img-fluid rounded" src="{{ asset('./images_posts/'.$post->image) }}" alt="Bologna"></figure>
@@ -27,11 +40,8 @@
                         <!-- Post content-->
                         <section class="mb-5">
                             <p class="fs-5 mb-4">{!! $post->body !!}</p>
-
                         </section>
                     </article>
-
-
                     <!-- Comments section-->
                     <section class="mb-5">
                         <div class="card bg-light">
@@ -66,6 +76,19 @@
                                             <input type="text" name="body_update" class="form-control"  value="{{ $comment->body }}">
                                             <input class="btn btn-sm btn-info m-1" type="submit" value="update">
                                         </form>
+                                        <div class="d-flex align-items">
+                                            <form  action="{{ route('comment.like') }}" id="form-cmnt">
+                                                <div id="count-cmnt-js">{{ $comment->likes->count() }} Like(s)</div>
+                                                <input type="hidden" name="id" id="cmnt-id-js" value="{{ $comment->id }}">
+                                                <button type="submit" class="btn btn-link btn-sm">J'aime</button>
+                                            </form>
+                                            <form  action="{{ route('comment.dislike') }}" id="form-dis-cmnt">
+                                                <div id="count-cmnt-js">{{ $comment->deslikes->count() }} Dislike(s)</div>
+                                                <input type="hidden" name="id" id="cmnt-id-js" value="{{ $comment->id }}">
+                                                <button type="submit" class="btn btn-link btn-sm">J'aime pas</button>
+                                            </form>
+                                        </div>
+
                                         <div class="reply-input" style="display: none;">
                                             <form method="post" action="{{ route('coment.storeChild') }}">
                                                 @csrf
@@ -113,6 +136,8 @@
         </div>
         </div>
     </main>
+@endsection
+@section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <script>
@@ -145,6 +170,8 @@
             $('.comment-body-input').hide();
         });
     </script>
-
-
+    <script src="{{ asset('likePost.js') }}"></script>
+    <script src="{{ asset('DeslikePost.js') }}"></script>
+    <script src="{{ asset('likeComment.js') }}"></script>
+    <script src="{{ asset('DislikeComment.js') }}"></script>
 @endsection
