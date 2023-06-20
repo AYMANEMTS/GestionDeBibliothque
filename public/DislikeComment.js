@@ -1,6 +1,6 @@
-const formsCmt = document.querySelectorAll('#form-cmnt');
+const form3 = document.querySelectorAll('#form-dis-cmnt');
 
-formsCmt.forEach(form => {
+form3.forEach(form => {
     form.addEventListener('submit', function (e) {
         e.preventDefault();
 
@@ -19,7 +19,7 @@ formsCmt.forEach(form => {
             data: JSON.stringify({ id: comentId }),
             dataType: 'json',
             success: function (data) {
-                countCm.innerHTML = data.count + ' Like(s)';
+                countCm.innerHTML = data.count + ' Dislike(s)';
             },
             error: function (error) {
                 console.log(error);
