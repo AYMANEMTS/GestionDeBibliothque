@@ -3,30 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coment;
+use App\Models\Deslike;
+use App\Models\Like;
+use App\Models\Post;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ComentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $coment = $request->validate(['body'=>'required']);
@@ -49,7 +35,6 @@ class ComentController extends Controller
         return back();
     }
 
-
     public function update(Request $request, string $id)
     {
         $cmnt = Coment::findOrFail($id);
@@ -57,9 +42,6 @@ class ComentController extends Controller
         return back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $cmnt = Coment::findOrFail($id);
@@ -67,4 +49,39 @@ class ComentController extends Controller
         $cmnt->delete();
         return back();
     }
+    public function likeComment()
+    {
+        $cmnt = Coment::find(request()->id);
+        $user_id = Auth::user()->id;
+        $like = Like::where('user_id',$user_id)->where('cmnt_id',$cmnt->id)->first();
+        if ($like){
+            $like->delete();
+            return response()->json(['count' => Like::where('cmnt_id',$cmnt->id)->get()->count()]);
+        }else{
+            $lk = Like::create([
+                'user_id' => $user_id,
+                'cmnt_id' => $cmnt->id
+            ]);
+            return response()->json(['count' => Like::where('cmnt_id',$cmnt->id)->get()->count()]);
+        }
+    }
+    public function dislikeComment()
+    {
+        $cmnt = Coment::find(request()->id);
+        $user_id = Auth::user()->id;
+        $dislike = Deslike::where('user_id',$user_id)->where('cmnt_id',$cmnt->id)->first();
+        if ($dislike){
+            $dislike->delete();
+            return response()->json(['count' => Deslike::where('cmnt_id',$cmnt->id)->get()->count()]);
+        }else{
+            $lk = Deslike::create([
+                'user_id' => $user_id,
+                'cmnt_id' => $cmnt->id
+            ]);
+            return response()->json(['count' => Deslike::where('cmnt_id',$cmnt->id)->get()->count()]);
+        }
+    }
+
+
+
 }
