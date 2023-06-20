@@ -65,12 +65,23 @@ Route::group(['middleware' => ['auth']],function (){
        Route::get('myPost/','myPost')->name('myPost');
    });
 });
+Route::post('/like', [PostController::class,'like'])->name('posts.like');
+Route::post('/deslike',[PostController::class,'deslike'])->name('posts.deslike');
+Route::post('/like/comment', [ComentController::class,'likeComment'])->name('comment.like');
+Route::post('/dislike/comment', [ComentController::class,'dislikeComment'])->name('comment.dislike');
 
 Route::view('Blog/post/create','etudiant.posts.post_create')->name('Post.create')->middleware('auth');
 Route::post('submit/',[ComentController::class,'store'])->name('coment.store');
 Route::post('submit-child/',[ComentController::class,'storeChild'])->name('coment.storeChild');
 Route::post('update-cmnt/{id}',[ComentController::class,'update'])->name('coment.update');
 Route::get('update-cmnt/{id}',[ComentController::class,'destroy'])->name('coment.destroy');
+
+
+
+Route::post('/like', [PostController::class,'like'])->name('posts.like');
+
+
+
 
 Route::get('python',function (){
     $path = 'D:\Laravel-Project\gestionDeBibliothec\GestionDeBibliotheque\public\pyscript.py';
@@ -167,3 +178,4 @@ Route::group(['middleware' => ['auth','chek.role.etd']],function (){
 Route::post('upload-image', [PostController::class, 'upload'])->name('upload.image');
 
 Route::view('test','test');
+
