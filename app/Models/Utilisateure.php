@@ -22,6 +22,11 @@ class Utilisateure extends Authenticatable
         $this->countlivreRendu++;
         $this->save();
     }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
     use HasFactory;
 }
 
