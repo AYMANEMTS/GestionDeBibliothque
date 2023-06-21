@@ -20,6 +20,9 @@ form2.forEach(form => {
         }).then(response => {
             response.json().then(data => {
                 count.innerHTML = data.count + ' Dislike(s)';
+                var status = document.getElementById('dislike');
+                status.style.color = data.status;
+                console.log(data.status);
             })
         }).catch(error => {
             console.log(error)
