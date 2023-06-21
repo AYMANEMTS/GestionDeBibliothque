@@ -7,6 +7,7 @@ formsCmt.forEach(form => {
         const url = this.getAttribute('action');
         const token = document.querySelector('meta[name="csrf-token"]').content;
         const comentId = this.querySelector('#cmnt-id-js').value;
+        const btnlike = this.querySelector('#likeComent');
         const countCm = this.querySelector('#count-cmnt-js');
 
         $.ajax({
@@ -20,6 +21,8 @@ formsCmt.forEach(form => {
             dataType: 'json',
             success: function (data) {
                 countCm.innerHTML = data.count + ' Like(s)';
+                btnlike.style.color = data.statusComment;
+                console.log(data)
             },
             error: function (error) {
                 console.log(error);
