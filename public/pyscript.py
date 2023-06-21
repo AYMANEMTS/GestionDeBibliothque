@@ -1,3 +1,5 @@
+import random
+
 data = {'prenom':'aymane',
  'nom':'moutousse',
  'age':'22'}
