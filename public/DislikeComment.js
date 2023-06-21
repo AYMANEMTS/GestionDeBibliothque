@@ -7,6 +7,7 @@ form3.forEach(form => {
         const url = this.getAttribute('action');
         const token = document.querySelector('meta[name="csrf-token"]').content;
         const comentId = this.querySelector('#cmnt-id-js').value;
+        const btnDislikeComment = this.querySelector('#dislikeComment');
         const countCm = this.querySelector('#count-cmnt-js');
 
         $.ajax({
@@ -20,6 +21,8 @@ form3.forEach(form => {
             dataType: 'json',
             success: function (data) {
                 countCm.innerHTML = data.count + ' Dislike(s)';
+                btnDislikeComment.style.color = data.statusC;
+                console.log(data);
             },
             error: function (error) {
                 console.log(error);
