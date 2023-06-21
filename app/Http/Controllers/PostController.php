@@ -122,7 +122,8 @@ class PostController extends Controller
 
             if ($res) {
                 return response()->json([
-                    'count' => Post::find(request()->id)->likes->count()
+                    'count' => Post::find(request()->id)->likes->count(),
+                    'status' => 'grey'
                 ]);
             }
 
@@ -135,7 +136,8 @@ class PostController extends Controller
             $like->save();
 
             return response()->json([
-                'count' => Post::find(request()->id)->likes->count()
+                'count' => Post::find(request()->id)->likes->count(),
+                'status' => 'green'
             ]);
         }
     }
@@ -146,6 +148,7 @@ class PostController extends Controller
                ->where('post_id',$post->id)->first();
 
         if ($des) {
+
             $res = Deslike::where([
                 'user_id' => auth()->user()->id,
                 'post_id' => request()->id
@@ -153,7 +156,8 @@ class PostController extends Controller
 
             if ($res) {
                 return response()->json([
-                    'count' => Post::find(request()->id)->deslikes->count()
+                    'count' => Post::find(request()->id)->deslikes->count(),
+                    'status' => 'grey'
                 ]);
             }
 
@@ -166,7 +170,8 @@ class PostController extends Controller
             $deslike->save();
 
             return response()->json([
-                'count' => Post::find(request()->id)->deslikes->count()
+                'count' => Post::find(request()->id)->deslikes->count(),
+                'status' => 'red'
             ]);
         }
     }
