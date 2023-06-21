@@ -20,6 +20,9 @@ forms.forEach(form => {
         }).then(response => {
             response.json().then(data => {
                 count.innerHTML = data.count + ' Like(s)';
+                var status = document.getElementById('like');
+                status.style.color = data.status;
+                console.log(data.status);
             })
         }).catch(error => {
             console.log(error)
