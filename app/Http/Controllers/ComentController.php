@@ -56,13 +56,19 @@ class ComentController extends Controller
         $like = Like::where('user_id',$user_id)->where('cmnt_id',$cmnt->id)->first();
         if ($like){
             $like->delete();
-            return response()->json(['count' => Like::where('cmnt_id',$cmnt->id)->get()->count()]);
+            return response()->json([
+                'statusComment'=>'grey',
+                'count' => Like::where('cmnt_id',$cmnt->id)->get()->count(),
+            ]);
         }else{
             $lk = Like::create([
                 'user_id' => $user_id,
                 'cmnt_id' => $cmnt->id
             ]);
-            return response()->json(['count' => Like::where('cmnt_id',$cmnt->id)->get()->count()]);
+            return response()->json([
+                'statusComment'=>'green',
+                'count' => Like::where('cmnt_id',$cmnt->id)->get()->count(),
+            ]);
         }
     }
     public function dislikeComment()
@@ -72,13 +78,17 @@ class ComentController extends Controller
         $dislike = Deslike::where('user_id',$user_id)->where('cmnt_id',$cmnt->id)->first();
         if ($dislike){
             $dislike->delete();
-            return response()->json(['count' => Deslike::where('cmnt_id',$cmnt->id)->get()->count()]);
+            return response()->json(['count' => Deslike::where('cmnt_id',$cmnt->id)->get()->count(),
+                                     'statusC'=>'grey']);
         }else{
             $lk = Deslike::create([
                 'user_id' => $user_id,
                 'cmnt_id' => $cmnt->id
             ]);
-            return response()->json(['count' => Deslike::where('cmnt_id',$cmnt->id)->get()->count()]);
+            return response()->json([
+                'statusC'=>'red',
+                'count' => Deslike::where('cmnt_id',$cmnt->id)->get()->count(),
+            ]);
         }
     }
 
