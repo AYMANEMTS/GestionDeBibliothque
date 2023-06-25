@@ -47,7 +47,7 @@
                                     <div class="views">{{Carbon\Carbon::parse($post->created_at)->format('M d, h:iA')}}
                                     </div>
                                     <div class="stats">
-
+                                        <i class="fa-solid fa-heart">  {{ $post->likes->count() }}</i>
                                         <i class="far fa-eye"></i> {{ $post->views }}
                                         <i class="far fa-comment"></i> {{ $post->comments->count() }}
                                     </div>
