@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ComentController;
 use App\Http\Controllers\EtudiantController;
+use App\Http\Controllers\FollowerController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SuperAdminController;
@@ -83,13 +84,20 @@ Route::post('/like', [PostController::class,'like'])->name('posts.like');
 
 
 
-Route::get('python',function (){
+Route::get('python', function () {
     $path = 'D:\Laravel-Project\gestionDeBibliothec\GestionDeBibliotheque\public\pyscript.py';
     $output = [];
-    exec("python {$path} ", $output);
-    return $output;
-});
+    $returnVar = null;
 
+    exec("python {$path} 2>&1", $output, $returnVar);
+
+    if ($returnVar !== 0) {
+        $errorMessage = implode("\n", $output);
+        return "Error: " . $errorMessage;
+    }
+
+    return implode("\n", $output);
+});
 
 Route::group(['middleware' => ['auth']],function (){
     Route::controller(PostController::class)->group(function (){
@@ -172,10 +180,16 @@ Route::group(['middleware' => ['auth','chek.role.etd']],function (){
        });
     });
 });
+Route::post('lkd_post',[FollowerController::class,'post'])->name('follower.post');
 
 
 
 Route::post('upload-image', [PostController::class, 'upload'])->name('upload.image');
+Route::get('posts_test/',function (){
+    $posts = \App\Models\Post::all();
+    return view('postlikes',compact('posts'));
+});
+
 
 Route::view('test','test');
 
