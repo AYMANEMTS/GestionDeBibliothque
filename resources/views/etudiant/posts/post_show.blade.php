@@ -18,15 +18,24 @@
                             <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
                             <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
                             <div class="d-flex align-items">
+                                @php
+                                    $Lstatus = 'grey';
+                                    $Dstatus = 'grey';
+                                    $user = \Illuminate\Support\Facades\Auth::user();
+                                    $like = \App\Models\Like::where('user_id',$user->id)->where('post_id',$post->id)->first();
+                                    $dislike = \App\Models\Deslike::where('user_id',$user->id)->where('post_id',$post->id)->first();
+                                    if ($like){$Lstatus = 'green';}else{$Lstatus = 'grey';}
+                                    if ($dislike){$Dstatus = 'red';}else{$Dstatus = 'grey';}
+                                 @endphp
                                 <form action="{{ route('posts.like') }}" id="form-js">
                                     <div id="count-js">{{ $post->likes->count() }} Like(s)</div>
                                     <input type="hidden" id="post-id-js" value="{{ $post->id }}">
-                                    <button type="submit" class="btn btn-link btn-sm">J'aime</button>
+                                    <button type="submit" class="btn "><i id="like" style="color: {{ $Lstatus }}" class="fa fa-light fa-thumbs-up"></i><b>     J'aime</b></button>
                                 </form>
                                 <form action="{{ route('posts.deslike') }}" id="form-deslike-post">
                                     <div id="count-js">{{ $post->deslikes->count() }} Dislike(s)</div>
                                     <input type="hidden" id="post-id-js" value="{{ $post->id }}">
-                                    <button type="submit" class="btn btn-link btn-sm">J'aime pas</button>
+                                    <button type="submit" class="btn "><i id="dislike" style="color: {{$Dstatus}}" class="fa fa-light fa-thumbs-down"></i><b>     J'aime pas</b></button>
                                 </form>
                             </div>
                         </header>
@@ -55,6 +64,14 @@
                                     <button class="btn btn-primary m-1" type="submit">Submit</button>
                                 </form>
                                 @foreach($cmt as $comment)
+                                    @php
+                                        $LCstatus = 'grey';
+                                        $DCstatus = 'grey';
+                                        $likeC = \App\Models\Like::where('user_id',$user->id)->where('cmnt_id',$comment->id)->first();
+                                        $dislikeC = \App\Models\Deslike::where('user_id',$user->id)->where('cmnt_id',$comment->id)->first();
+                                        if ($likeC){$LCstatus = 'green';}
+                                        if ($dislikeC){$DCstatus = 'red';}
+                                    @endphp
                                 <div class="d-flex m-2">
                                     @if($comment->user->profile_img)
                                         <div class="flex-shrink-0 m-2"><img style="width: 40px;height: 40px" class="rounded-circle m-0" src="{{ asset('./images_profiles/'.$comment->user->profile_img) }}" alt="..." /></div>
@@ -80,12 +97,12 @@
                                             <form  action="{{ route('comment.like') }}" id="form-cmnt">
                                                 <div id="count-cmnt-js">{{ $comment->likes->count() }} Like(s)</div>
                                                 <input type="hidden" name="id" id="cmnt-id-js" value="{{ $comment->id }}">
-                                                <button type="submit" class="btn btn-link btn-sm">J'aime</button>
+                                                <button type="submit" class="btn "><i style="color: {{ $LCstatus }}" id="likeComent"  class="fa fa-light fa-thumbs-up likeComent"></i><b>     J'aime</b></button>
                                             </form>
                                             <form  action="{{ route('comment.dislike') }}" id="form-dis-cmnt">
                                                 <div id="count-cmnt-js">{{ $comment->deslikes->count() }} Dislike(s)</div>
                                                 <input type="hidden" name="id" id="cmnt-id-js" value="{{ $comment->id }}">
-                                                <button type="submit" class="btn btn-link btn-sm">J'aime pas</button>
+                                                <button type="submit" class="btn "><i id="dislikeComment" style="color: {{ $DCstatus }}" class="fa fa-light fa-thumbs-down"></i><b>     J'aime</b></button>
                                             </form>
                                         </div>
 
