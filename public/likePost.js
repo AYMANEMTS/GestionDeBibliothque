@@ -19,10 +19,14 @@ forms.forEach(form => {
             })
         }).then(response => {
             response.json().then(data => {
-                count.innerHTML = data.count + ' Like(s)';
                 var status = document.getElementById('like');
+                var status2 = document.getElementById('dislike');
+                var countds = document.getElementById('count-ds-js');
+                count.innerHTML = data.count + ' Like(s)';
+                countds.innerHTML = data.countds + ' Dislike(s)';
                 status.style.color = data.status;
-                console.log(data.status);
+                status2.style.color = data.status2;
+                console.log(data);
             })
         }).catch(error => {
             console.log(error)

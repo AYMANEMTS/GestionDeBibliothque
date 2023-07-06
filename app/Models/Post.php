@@ -42,6 +42,14 @@ class Post extends Model
     {
         return $this->hasMany(Like::class);
     }
+    public function Jaimes()
+    {
+        return $this->hasMany(Follower::class)->where('status',1);
+    }
+    public function JaimesPas()
+    {
+        return $this->hasMany(Follower::class)->where('status',0);
+    }
     public function deslikes()
     {
         return $this->hasMany(Deslike::class);

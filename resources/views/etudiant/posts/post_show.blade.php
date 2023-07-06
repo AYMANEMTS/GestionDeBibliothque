@@ -33,7 +33,7 @@
                                     <button type="submit" class="btn "><i id="like" style="color: {{ $Lstatus }}" class="fa fa-light fa-thumbs-up"></i><b>     J'aime</b></button>
                                 </form>
                                 <form action="{{ route('posts.deslike') }}" id="form-deslike-post">
-                                    <div id="count-js">{{ $post->deslikes->count() }} Dislike(s)</div>
+                                    <div id="count-ds-js">{{ $post->deslikes->count() }} Dislike(s)</div>
                                     <input type="hidden" id="post-id-js" value="{{ $post->id }}">
                                     <button type="submit" class="btn "><i id="dislike" style="color: {{$Dstatus}}" class="fa fa-light fa-thumbs-down"></i><b>     J'aime pas</b></button>
                                 </form>
@@ -100,7 +100,7 @@
                                                 <button type="submit" class="btn "><i style="color: {{ $LCstatus }}" id="likeComent"  class="fa fa-light fa-thumbs-up likeComent"></i><b>     J'aime</b></button>
                                             </form>
                                             <form  action="{{ route('comment.dislike') }}" id="form-dis-cmnt">
-                                                <div id="count-cmnt-js">{{ $comment->deslikes->count() }} Dislike(s)</div>
+                                                <div id="count-dscm-js">{{ $comment->deslikes->count() }} Dislike(s)</div>
                                                 <input type="hidden" name="id" id="cmnt-id-js" value="{{ $comment->id }}">
                                                 <button type="submit" class="btn "><i id="dislikeComment" style="color: {{ $DCstatus }}" class="fa fa-light fa-thumbs-down"></i><b>     J'aime</b></button>
                                             </form>

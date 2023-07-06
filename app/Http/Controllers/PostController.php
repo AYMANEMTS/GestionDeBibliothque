@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Coment;
 use App\Models\Deslike;
+use App\Models\Follower;
 use App\Models\Like;
 use App\Models\Post;
+use http\Env\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -113,6 +115,22 @@ class PostController extends Controller
     public function like(): JsonResponse
     {
         $post = Post::find(request()->id);
+        $deslike = Deslike::where('user_id',Auth::user()->id)
+            ->where('post_id',$post->id)->first();
+
+        if ($deslike){
+            $deslike->delete();
+            $like = new Like();
+            $like->user_id = auth()->user()->id;
+            $like->post_id = request()->id;
+            $like->save();
+            return response()->json([
+                'status' => 'green',
+                'status2' => 'grey',
+                'count' => $post->likes->count(),
+                'countds' => $post->deslikes->count()
+            ]);
+        }
 
         if ($post->isLikedByLoggedInUser()) {
             $res = Like::where([
@@ -123,7 +141,8 @@ class PostController extends Controller
             if ($res) {
                 return response()->json([
                     'count' => Post::find(request()->id)->likes->count(),
-                    'status' => 'grey'
+                    'status' => 'grey',
+                    'countds' => $post->deslikes->count()
                 ]);
             }
 
@@ -137,7 +156,8 @@ class PostController extends Controller
 
             return response()->json([
                 'count' => Post::find(request()->id)->likes->count(),
-                'status' => 'green'
+                'status' => 'green',
+                'countds' => $post->deslikes->count()
             ]);
         }
     }
@@ -146,9 +166,24 @@ class PostController extends Controller
         $post = Post::find(request()->id);
         $des = Deslike::where('user_id',Auth::user()->id)
                ->where('post_id',$post->id)->first();
+        $like = Like::where('user_id',Auth::user()->id)
+            ->where('post_id',$post->id)->first();
+
+        if ($like){
+            $like->delete();
+            $dessl = new Deslike();
+            $dessl->user_id = Auth::user()->id;
+            $dessl->post_id = $post->id;
+            $dessl->save();
+            return response()->json([
+               'count' => $post->deslikes->count(),
+               'status' => 'red',
+               'status2' => 'grey',
+               'countlk' => $post->likes->count()
+            ]);
+        }
 
         if ($des) {
-
             $res = Deslike::where([
                 'user_id' => auth()->user()->id,
                 'post_id' => request()->id
@@ -157,7 +192,8 @@ class PostController extends Controller
             if ($res) {
                 return response()->json([
                     'count' => Post::find(request()->id)->deslikes->count(),
-                    'status' => 'grey'
+                    'status' => 'grey',
+                    'countlk' => $post->likes->count()
                 ]);
             }
 
@@ -171,10 +207,14 @@ class PostController extends Controller
 
             return response()->json([
                 'count' => Post::find(request()->id)->deslikes->count(),
-                'status' => 'red'
+                'status' => 'red',
+                'countlk' => $post->likes->count()
             ]);
         }
     }
+
+
+
 
 }
 

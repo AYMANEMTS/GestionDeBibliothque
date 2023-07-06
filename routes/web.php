@@ -66,39 +66,19 @@ Route::group(['middleware' => ['auth']],function (){
        Route::get('myPost/','myPost')->name('myPost');
    });
 });
-Route::post('/like', [PostController::class,'like'])->name('posts.like');
-Route::post('/deslike',[PostController::class,'deslike'])->name('posts.deslike');
-Route::post('/like/comment', [ComentController::class,'likeComment'])->name('comment.like');
-Route::post('/dislike/comment', [ComentController::class,'dislikeComment'])->name('comment.dislike');
+Route::group(['middleware' => ['auth']],function (){
+    Route::post('/like', [PostController::class,'like'])->name('posts.like');
+    Route::post('/deslike',[PostController::class,'deslike'])->name('posts.deslike');
+    Route::post('/like/comment', [ComentController::class,'likeComment'])->name('comment.like');
+    Route::post('/dislike/comment', [ComentController::class,'dislikeComment'])->name('comment.dislike');
 
-Route::view('Blog/post/create','etudiant.posts.post_create')->name('Post.create')->middleware('auth');
-Route::post('submit/',[ComentController::class,'store'])->name('coment.store');
-Route::post('submit-child/',[ComentController::class,'storeChild'])->name('coment.storeChild');
-Route::post('update-cmnt/{id}',[ComentController::class,'update'])->name('coment.update');
-Route::get('update-cmnt/{id}',[ComentController::class,'destroy'])->name('coment.destroy');
-
-
-
-Route::post('/like', [PostController::class,'like'])->name('posts.like');
-
-
-
-
-Route::get('python', function () {
-    $path = 'D:\Laravel-Project\gestionDeBibliothec\GestionDeBibliotheque\public\pyscript.py';
-    $output = [];
-    $returnVar = null;
-
-    exec("python {$path} 2>&1", $output, $returnVar);
-
-    if ($returnVar !== 0) {
-        $errorMessage = implode("\n", $output);
-        return "Error: " . $errorMessage;
-    }
-
-    return implode("\n", $output);
+    Route::view('Blog/post/create','etudiant.posts.post_create')->name('Post.create');
+    Route::post('submit/',[ComentController::class,'store'])->name('coment.store');
+    Route::post('submit-child/',[ComentController::class,'storeChild'])->name('coment.storeChild');
+    Route::post('update-cmnt/{id}',[ComentController::class,'update'])->name('coment.update');
+    Route::get('update-cmnt/{id}',[ComentController::class,'destroy'])->name('coment.destroy');
+    Route::post('/like', [PostController::class,'like'])->name('posts.like');
 });
-
 Route::group(['middleware' => ['auth']],function (){
     Route::controller(PostController::class)->group(function (){
         Route::get('Blog/posts','index')->name('Post.index');
@@ -110,10 +90,6 @@ Route::group(['middleware' => ['auth']],function (){
 
     });
 });
-
-
-
-
 
 /* Super Admin */
 Route::group(['middleware' => ['auth','chek.role.etd','chek.role.mdr']],function (){
@@ -135,7 +111,6 @@ Route::group(['middleware' => ['auth','chek.role.etd','chek.role.mdr']],function
         });
     });
 });
-
 
 /*  Admin  */
 Route::group(['middleware' => ['auth','chek.role.etd']],function (){
@@ -180,15 +155,28 @@ Route::group(['middleware' => ['auth','chek.role.etd']],function (){
        });
     });
 });
-Route::post('lkd_post',[FollowerController::class,'post'])->name('follower.post');
+Route::post('lkd_post/',[FollowerController::class,'post'])->name('follower.post');
 
+Route::get('python', function () {
+    $path = 'D:\Laravel-Project\gestionDeBibliothec\GestionDeBibliotheque\public\pyscript.py';
+    $output = [];
+    $returnVar = null;
 
+    exec("python {$path} 2>&1", $output, $returnVar);
+
+    if ($returnVar !== 0) {
+        $errorMessage = implode("\n", $output);
+        return "Error: " . $errorMessage;
+    }
+
+    return implode("\n", $output);
+});
 
 Route::post('upload-image', [PostController::class, 'upload'])->name('upload.image');
 Route::get('posts_test/',function (){
     $posts = \App\Models\Post::all();
     return view('postlikes',compact('posts'));
-});
+})->middleware('auth');
 
 
 Route::view('test','test');
