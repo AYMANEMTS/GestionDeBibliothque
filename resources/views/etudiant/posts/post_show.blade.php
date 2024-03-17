@@ -27,7 +27,7 @@
                                     if ($like){$Lstatus = 'green';}else{$Lstatus = 'grey';}
                                     if ($dislike){$Dstatus = 'red';}else{$Dstatus = 'grey';}
                                  @endphp
-                                <form action="{{ route('posts.like') }}" id="form-js">
+                                <form action="{{ route('posts.like') }}" method="POST" id="form-js">
                                     <div id="count-js">{{ $post->likes->count() }} Like(s)</div>
                                     <input type="hidden" id="post-id-js" value="{{ $post->id }}">
                                     <button type="submit" class="btn "><i id="like" style="color: {{ $Lstatus }}" class="fa fa-light fa-thumbs-up"></i><b>     J'aime</b></button>

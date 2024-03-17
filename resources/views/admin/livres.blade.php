@@ -38,7 +38,7 @@
                             class="rounded-circle"
                         />
                         <div class="ms-3">
-                            <p class="fw-bold mb-1">{{ $book->titre }}</p>
+                            <p class="fw-bold ml-2 mb-1">{{ $book->titre }}</p>
                         </div>
                     </div>
                 </td>
